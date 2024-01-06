@@ -6,6 +6,7 @@ import { WinstonModule } from 'nest-winston'
 import { LoggerFactory } from './config/logger.config';
 import { errorValidationBodyDto } from './dtos/errorBody.dto';
 import { HttpExceptionFilter } from './filters/httpExceptions.filter';
+import { ValidationExceptionFilter } from './filters/validationExceptions.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -35,7 +36,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ exceptionFactory: errorValidationBodyDto, whitelist: true, transform: true }))
   
-  app.useGlobalFilters(new HttpExceptionFilter())
+  app.useGlobalFilters(new HttpExceptionFilter(), new ValidationExceptionFilter())
   await app.listen(process.env.PORT);
 
   process.on('unhandledRejection', (reason, promise) => {
