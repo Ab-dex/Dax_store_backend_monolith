@@ -18,3 +18,13 @@ NB:
 1. For now I created a Validation exception class just to give a custom name to a type of BadRequestException for debugging purpose.
 2. I can pass a custom filter specific to a controller without making global, at the controller level by using @useFilter() and passing an instance of the filter as an argument.
 3. Global filters registered from outside any module with useGlobalFilters does not inject dependency. So in order to use dependency injection, I need to add "APP_FILTER" from @nestjs/core to the provide field, and the filter class to the useClass field under registered providers preferably in the app module; to make it injectable.
+
+
+## Core App Logic
+
+# 1. Create user and auth modules
+
+# 2. My custom validator constraints
+- IsEmailExists
+
+# 3. Implement an auth Guard
