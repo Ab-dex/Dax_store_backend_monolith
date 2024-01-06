@@ -20,6 +20,8 @@ NB:
 3. Global filters registered from outside any module with useGlobalFilters does not inject dependency. So in order to use dependency injection, I need to add "APP_FILTER" from @nestjs/core to the provide field, and the filter class to the useClass field under registered providers preferably in the app module; to make it injectable.
 
 
+# Setup database - MongoDb
+
 ## Core App Logic
 
 # 1. Create user and auth modules
