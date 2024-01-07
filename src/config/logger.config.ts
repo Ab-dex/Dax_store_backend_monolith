@@ -59,7 +59,7 @@ export const LoggerFactory = () => {
     return WinstonModule.createLogger({
         level: "info",
         transports: winstonTransports,
-            exceptionHandlers: [
+        exceptionHandlers: [
     new transports.File({
       filename: './logs/exceptions.log',
       maxsize: 5242880,

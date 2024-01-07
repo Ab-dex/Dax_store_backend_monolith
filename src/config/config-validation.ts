@@ -6,7 +6,7 @@ import { Environments } from "./configs"
 class EnvironmentVariables{
 
     @IsDefined()
-     @IsEnum(Environments)
+    @IsEnum(Environments)
     NODE_ENV: Environments
 
     @IsDefined()
