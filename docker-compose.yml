@@ -1,0 +1,21 @@
+services:
+
+    mongo:
+      image: mongo:latest
+      volumes:
+        - mongodb:/data/mongodb
+      ports:
+        - 27017:27017
+      # environment:
+      #   MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+      #   MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+      # healthcheck:
+      #   test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
+      #   interval: 5s
+      #   timeout: 5s
+      #   retries: 3
+      #   start_period: 5s
+
+volumes:
+  mongodb:
+    driver: local
