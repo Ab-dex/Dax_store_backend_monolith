@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
-import { errorValidationBodyDto } from './dtos/errorBody.dto';
+import { errorValidationBodyDto } from '../libs/common/src/dtos/errorBody.dto';
 import { configureSwagger } from '@app/common/config/swagger_config';
 import { HttpExceptionFilter } from '@app/common/filters/httpExceptions.filter';
 import { ValidationExceptionFilter } from '@app/common/filters/validationExceptions.filter';
