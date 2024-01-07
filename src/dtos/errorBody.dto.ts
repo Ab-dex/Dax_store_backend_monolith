@@ -1,6 +1,5 @@
-import { BadRequestException } from "@nestjs/common"
+import { ValidationException } from "@app/common/filters/validation.exception"
 import { ValidationError } from "class-validator"
-import { ValidationException } from "src/filters/validation.exception"
 
 export const errorValidationBodyDto = (errors: ValidationError[]) => {
     const result = errors.map(error => ({

@@ -1,7 +1,7 @@
 import { INestApplication } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
-export const  configureSwagger = (app: INestApplication) => {
+export const configureSwagger = (app: INestApplication) => {
     const documentConfig = new DocumentBuilder()
         .setTitle("E-commerce api")
         .setVersion("1.0.0")
