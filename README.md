@@ -30,3 +30,6 @@ NB:
 - IsEmailExists
 
 # 3. Implement an auth Guard
+
+Image reference:
+https://github.com/solemnseagal/Dax_store_backend_monolith/blob/main/public/schema_diagrams/diagram-export-07-01-2024-09_57_55.pnghttps://github.com/solemnseagal/Dax_store_backend_monolith/blob/main/public/schema_diagrams/diagram-export-07-01-2024-09_57_55.png
