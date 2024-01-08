@@ -1,9 +1,8 @@
 import { Types } from 'mongoose';
 
 export abstract class Entity<T> {
-  protected readonly _id: Types.ObjectId;
-  constructor(id: Types.ObjectId) {
-    this._id = id;
+  constructor(protected readonly _id: Types.ObjectId) {
+   
   }
 
   get id() {

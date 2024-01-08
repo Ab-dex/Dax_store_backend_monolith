@@ -19,8 +19,8 @@ import { BaseRepository } from "./base.repository";
 export abstract class GenericDocumentRepository<TEntity extends Entity<TEntity>, T extends BaseDocumentSchema> extends BaseRepository<TEntity, T> implements IGenericDocument<TEntity, T> {
   constructor(
     protected readonly model: Model<T>,
-    readonly connection: Connection,
-    protected readonly mapper: IMapper<TEntity, T>
+    protected readonly mapper: IMapper<TEntity, T>,
+    private readonly connection?: Connection,
   ) {
     super(model, mapper)
   }
@@ -70,7 +70,7 @@ export abstract class GenericDocumentRepository<TEntity extends Entity<TEntity>,
   }
 
   async startSession(): Promise<ClientSession> {
-    return await this.connection.startSession();
+    return await this.connection?.startSession();
   }
 
   async insertMany(docs: any): Promise<Result<TEntity[]>> {

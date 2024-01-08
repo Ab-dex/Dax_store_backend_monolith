@@ -9,9 +9,7 @@ export abstract class BaseRepository<TEntity, T extends BaseDocumentSchema> {
     constructor(
         protected readonly model: Model<T>,
         protected readonly mapper: IMapper<TEntity, T>
-    ) {
-        
-    }
+    ) {}
 
     async createEntry(document: any, options?: SaveOptions): Promise<Result<TEntity>> {
     const doc = new this.model({
