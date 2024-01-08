@@ -1,9 +1,9 @@
 import { Prop, Schema } from "@nestjs/mongoose";
 import { SchemaTypes, Types } from "mongoose";
-import { IBaseDocument } from "./base-document.interface";
+import { BaseModelInterface } from "./base-document.interface";
 
 @Schema()
-export abstract class BaseDocumentSchema implements IBaseDocument {
+export abstract class BaseDocumentSchema implements BaseModelInterface {
   @Prop({ type: SchemaTypes.ObjectId })
   _id?: Types.ObjectId;
 
