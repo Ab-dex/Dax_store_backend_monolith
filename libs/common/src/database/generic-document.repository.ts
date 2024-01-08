@@ -1,8 +1,6 @@
-import { HttpStatus, InternalServerErrorException } from "@nestjs/common";
 import {
   ClientSession,
   Connection,
-  Document,
   FilterQuery,
   Model,
   ProjectionType,
