@@ -1,6 +1,6 @@
 import { IMapper } from "@app/common/domain/mapper";
 import { UserEntity } from "../entity/user.entity";
-import { UserDocument, UserModel } from "../model/user.model";
+import { UserDocument } from "../model/user.model";
 import { UserDTO } from "../dtos/user.dto";
 import { Injectable } from "@nestjs/common";
 

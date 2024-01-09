@@ -32,10 +32,10 @@ export class UsersController {
  })
   @Post()
   createUser(@Body() createUserDto: CreateUserDto ) {
-      // try {
-      //   this.usersService.createUser(createUserDto)
-      // } catch (err) {
-      //   throw InternalServerErrorException
-      // }
+      try {
+        this.usersService.createUser(createUserDto)
+      } catch (err) {
+        throw InternalServerErrorException
+      }
   }
 }

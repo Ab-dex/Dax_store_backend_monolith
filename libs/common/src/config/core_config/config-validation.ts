@@ -12,6 +12,15 @@ class EnvironmentVariables{
     @IsDefined()
     @IsNumber()
     PORT: Number
+
+    @IsDefined()
+    MONGODB_URI: string
+
+    @IsDefined()
+    MONGODB_USERNAME: string
+
+    @IsDefined()
+    MONGODB_PASSWORD: any
 }
 
 export const validateConfig = (configuration: Record<string, unknown>) => {

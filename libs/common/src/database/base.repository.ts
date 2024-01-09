@@ -11,12 +11,16 @@ export abstract class BaseRepository<TEntity, T extends BaseDocumentSchema> {
         protected readonly mapper: IMapper<TEntity, T>
     ) {}
 
-    async createEntry(document: any, options?: SaveOptions): Promise<Result<TEntity>> {
+  async createEntry(document: T, options?: SaveOptions): Promise<Result<TEntity>> {
+
     const doc = new this.model({
+  
       ...document,
       _id: new Types.ObjectId(),
     });
-    const result = (await (await doc.save(options)).toJSON()) as T;
+
+    console.log(doc)
+    const result =  (await doc.save(options)).toJSON() as T;
     if (!result) {
       return Result.fail("An Error occured, unable to save document to db", HttpStatus.INTERNAL_SERVER_ERROR);
     }

@@ -1,5 +1,5 @@
 import { Model } from "mongoose";
-import { UserDocument, UserModel } from "../model/user.model";
+import { UserDocument, UserModels } from "../model/user.model";
 import { IMapper } from "@app/common/domain/mapper";
 import { GenericDocumentRepository } from "@app/common/database/generic-document.repository";
 import { UserEntity } from "../entity/user.entity";
@@ -11,7 +11,7 @@ import { UserMapper } from "../mapper/User.mapper";
 export class UserRepository extends GenericDocumentRepository<UserEntity, UserDocument>{
 
     constructor(
-        @InjectModel(UserModel.name) protected readonly model: Model<UserDocument>,
+        @InjectModel("Users") protected readonly model: Model<UserDocument>,
         protected readonly mapper: UserMapper
     ) {
         super(model, mapper)

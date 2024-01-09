@@ -25,7 +25,9 @@ export abstract class GenericDocumentRepository<TEntity extends Entity<TEntity>,
     super(model, mapper)
   }
 
-    async create(document: T, options?: SaveOptions): Promise<Result<TEntity>> {
+  async create(document: T, options?: SaveOptions): Promise<Result<TEntity>> {
+    
+     
     return this.createEntry(document, options)
     }
   

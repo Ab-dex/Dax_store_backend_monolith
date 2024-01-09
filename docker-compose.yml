@@ -2,13 +2,14 @@ services:
 
     mongo:
       image: mongo:latest
+      container_name: mongodb
       volumes:
         - mongodb:/data/mongodb
       ports:
         - 27017:27017
-      # environment:
-      #   MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
-      #   MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+        MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
       # healthcheck:
       #   test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
       #   interval: 5s

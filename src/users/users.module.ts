@@ -6,12 +6,13 @@ import { UserRepository } from './repository/user.repository';
 import { UserMapper } from './mapper/User.mapper';
 import { TYPES } from './constants/constants';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserModel, UserSchema } from './model/user.model';
+import { UserModels, UserSchema } from './model/user.model';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [MongooseModule.forFeature([
-      { name: UserModel.name, schema: UserSchema },
-    ]),],
+      { name: "Users", schema: UserSchema },
+    ]),ConfigModule],
   controllers: [UsersController],
   providers: [UsersService,{
     provide: TYPES.IUserRepository,

@@ -13,7 +13,10 @@ export enum Environments {
 const appConfig = registerAs(configKey.App_Config, () => (
     {
         env: Environments[process.env.NODE_ENV as keyof typeof Environments],
-        port: parseInt(process.env.PORT)
+        port: parseInt(process.env.PORT),
+        mongo_url: process.env.MONGODB_URI,
+        mongodb_username: process.env.MONGODB_USERNAME,
+        mongodb_password: process.env.MONGODB_PASSWORD
     }
 ))
 
