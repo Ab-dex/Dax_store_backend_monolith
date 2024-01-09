@@ -2,7 +2,7 @@ import { FilterQuery, Model, ProjectionType, QueryOptions, SaveOptions, Types, U
 import { BaseDocumentSchema } from "./base-document.schema";
 import { Result } from "../domain/result";
 import { IMapper } from "../domain/mapper";
-import { HttpStatus } from "@nestjs/common";
+import { HttpStatus, NotAcceptableException, NotFoundException } from "@nestjs/common";
 
 export abstract class BaseRepository<TEntity, T extends BaseDocumentSchema> {
 
@@ -56,12 +56,17 @@ export abstract class BaseRepository<TEntity, T extends BaseDocumentSchema> {
 
 
   async findOneById(id: string): Promise<Result<TEntity | null>> {
-    const document = await this.model.findById(id);
+    if (!Types.ObjectId.isValid(id)) {
+      throw new NotAcceptableException("Provided id is not valid")
+    }
+    
+      const document = await this.model.findById(id);
     if (!document) {
-      return Result.fail("No such entry exist in the database", HttpStatus.NOT_FOUND);
+      throw new NotFoundException()
     }
     const entity: TEntity = this.mapper.toDomain(document);
     return Result.ok(entity);
+    
   }
 
 

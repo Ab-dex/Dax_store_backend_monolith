@@ -1,4 +1,4 @@
-import { Inject, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { HttpStatus, Inject, Injectable, InternalServerErrorException, NotAcceptableException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { UserMapper } from './mapper/User.mapper';
 import { UserEntity } from './entity/user.entity';
 import { CreateUserDto } from './dtos/createUser.dto';
@@ -44,7 +44,8 @@ export class UsersService {
   }
 
   async getOneUserById(id: string): Promise<Result<UserDTO>> {
-    const user = await this.userRepository.findById(id)
+    try {
+      const user = await this.userRepository.findById(id)
     const {id: userId, email, firstname, lastname} = user.getValue()
     
     // cant directly spread user.getvalue() because an instance of entity was created and returned from the findById method with public getters and setters that can be used to access properties
@@ -56,6 +57,14 @@ export class UsersService {
     }, { excludeExtraneousValues: true })
       
     return Result.ok(serializedUser)
+    } catch (err) {
+      if (err instanceof NotAcceptableException || NotFoundException) {
+        return Result.fail("No such user exists", HttpStatus.NOT_FOUND)
+      }
+      else {
+        throw new InternalServerErrorException("Something went wrong")
+      }
+    }
    
   }
 
