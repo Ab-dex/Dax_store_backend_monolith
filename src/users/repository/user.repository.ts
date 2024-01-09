@@ -1,5 +1,5 @@
 import { Model } from "mongoose";
-import { UserDocument, UserModel } from "../model/user.model";
+import { UserDocument } from "../model/user.model";
 import { IMapper } from "@app/common/domain/mapper";
 import { GenericDocumentRepository } from "@app/common/database/generic-document.repository";
 import { UserEntity } from "../entity/user.entity";

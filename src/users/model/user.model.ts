@@ -12,7 +12,13 @@ export class UserModel extends BaseDocumentSchema implements IUserModel{
     @Prop({type: String, required: true, unique: true})
     email: string
 
-    @Prop({ type: String })
+    @Prop({type: String, required: true})
+    firstname: string
+
+    @Prop({type: String, required: true})
+    lastname: string
+
+    @Prop({ type: String, required: true })
     password: string
 }
 

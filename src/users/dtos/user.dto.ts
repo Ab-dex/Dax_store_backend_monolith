@@ -5,7 +5,8 @@ export class UserDTO implements IUser {
 
   id: string
   email: string;
-
+  firstname: string;
+  lastname: string;
   @Exclude()
   password: string;
 }

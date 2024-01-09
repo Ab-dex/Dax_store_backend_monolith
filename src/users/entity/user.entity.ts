@@ -3,6 +3,7 @@ import { Types } from "mongoose";
 import { IUserEntity } from "./user-entity.interface";
 import { Result } from "@app/common/domain/result";
 import { IUserModel } from "../model/userModel.interface";
+import { UserDTO } from "../dtos/user.dto";
 
 /**
  * @description: entity is the instance of m domain object at every point.
@@ -10,10 +11,14 @@ import { IUserModel } from "../model/userModel.interface";
 export class UserEntity extends Entity<IUserModel> implements IUserEntity {
   _email: string;
   _password: string;
-  constructor(id: Types.ObjectId, props: IUserModel) {
+  _firstname: string;
+  _lastname: string;
+  constructor(id: Types.ObjectId, props: UserDTO) {
     super(id)
     this._email = props.email
     this._password = props.password
+    this._firstname = props.firstname
+    this._lastname = props.lastname
   }
 
     get email() {
@@ -33,6 +38,26 @@ export class UserEntity extends Entity<IUserModel> implements IUserEntity {
   }
 
 
+  get firstname(): string {
+    return this._firstname
+  }
+
+
+  set firstname(firstname: string) {
+    this._firstname= firstname
+  }
+
+
+  get lastname(): string {
+    return this._lastname
+  }
+
+
+  set lastname(lastname: string) {
+    this._lastname= lastname
+  }
+
+
 
   // put these things in the constructor, make them private and create custom getters and setters for them to prevent null values
 
@@ -44,7 +69,7 @@ export class UserEntity extends Entity<IUserModel> implements IUserEntity {
    * @returns : an custom result of an instance of entity class. Use the getValue() method in the Result context to get every field within the class
    */
 
-  static create(props: IUserModel, id?: Types.ObjectId): Result<UserEntity> {
+  static create(props: UserDTO, id?: Types.ObjectId): Result<UserEntity> {
     return Result.ok(new UserEntity(id, props));
   }
 }

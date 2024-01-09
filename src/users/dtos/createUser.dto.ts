@@ -6,11 +6,11 @@ export class CreateUserDto {
     
   @IsNotEmpty()
   @IsString()
-  first_name: string
+  firstname: string
     
   @IsNotEmpty()
   @IsString()
-  last_name: string
+  lastname: string
     
   @IsNotEmpty()
   @IsStrongPassword()

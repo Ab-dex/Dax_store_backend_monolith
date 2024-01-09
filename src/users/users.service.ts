@@ -7,19 +7,29 @@ import { UserDTO } from './dtos/user.dto';
 import { UserRepository } from './repository/user.repository';
 import { Types } from 'src/Constants';
 import { plainToInstance } from 'class-transformer';
+import { UserDocument, UserModel } from './model/user.model';
 
 @Injectable()
 export class UsersService {
     constructor(
-    @Inject(Types.UserRepository) private readonly userRepository: UserRepository,
-    private readonly userMapper: UserMapper
+    private readonly userRepository: UserRepository,
+     private  readonly userMapper: UserMapper
   ) {}
 
   async createUser(props: CreateUserDto): Promise<Result<UserDTO>> {
     
-    const user = UserEntity.create({ ...props }).getValue();
-    const userDoc = this.userMapper.toPersistence(user);
-    const result = await this.userRepository.create(userDoc);
+    const user = UserEntity.create({ ...props } as UserDTO).getValue();
+    // const userDoc = this.userMapper.toModelData(user);
+    const newUserModel: UserModel = {
+            
+            email: user.email,
+      password: user.password,
+      firstname: user.firstname,
+            lastname: user.lastname,
+            created_At: Date.now().toString()
+    }
+    
+    const result = await this.userRepository.create(newUserModel as UserDocument);
 
     const serializedUser = plainToInstance(UserDTO,result.getValue())
     
@@ -29,7 +39,7 @@ export class UsersService {
   async getUsers(): Promise<Result<UserDTO[]>>{
 
     const users = await this.userRepository.findAll()
-    const serializedUser = users.getValue().map(user => plainToInstance(UserDTO,user))
+    const serializedUser = users.getValue().map(user => plainToInstance(UserDTO, user))
     return Result.ok(serializedUser)
   }
 }
