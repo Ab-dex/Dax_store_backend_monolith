@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { Types } from 'src/Constants';
@@ -9,6 +9,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserModels, UserSchema } from './model/user.model';
 import { ConfigModule } from '@nestjs/config';
 import { IsUserAlreadyExistConstraint } from './constraints/email-exists.constraints';
+import { CheckGetRequestBodyMiddleware } from '@app/common/middlewares/checkGetRequestBody.middleware';
 
 @Module({
   imports: [MongooseModule.forFeature([
@@ -23,4 +24,8 @@ import { IsUserAlreadyExistConstraint } from './constraints/email-exists.constra
     IsUserAlreadyExistConstraint,
   ]
 })
-export class UsersModule {}
+export class UsersModule implements NestModule{
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(CheckGetRequestBodyMiddleware).forRoutes('*');
+  }
+}

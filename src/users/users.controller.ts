@@ -25,6 +25,9 @@ export class UsersController {
   @ApiNotFoundResponse({
       description: "No user with such Id"
   })
+  @ApiBadRequestResponse({
+      description: "Bad Request"
+    })
   @ApiInternalServerErrorResponse({
       description: "Internal server error"
     })
