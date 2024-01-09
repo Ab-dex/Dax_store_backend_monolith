@@ -4,21 +4,24 @@ import { IUserEntity } from "./user-entity.interface";
 import { Result } from "@app/common/domain/result";
 import { IUserModel } from "../model/userModel.interface";
 import { UserDTO } from "../dtos/user.dto";
+import { UserModels } from "../model/user.model";
 
 /**
  * @description: entity is the instance of m domain object at every point.
  */
 export class UserEntity extends Entity<IUserModel> implements IUserEntity {
-  _email: string;
-  _password: string;
-  _firstname: string;
-  _lastname: string;
-  constructor(id: Types.ObjectId, props: UserDTO) {
-    super(id)
-    this._email = props.email
-    this._password = props.password
-    this._firstname = props.firstname
-    this._lastname = props.lastname
+ 
+  private _email: string
+  private _password: string
+  private _firstname: string
+  private _lastname: string
+
+  constructor({ email, password, firstname, lastname}: UserModels | UserDTO,_id: Types.ObjectId  ) {
+    super(_id)
+    this._email = email
+    this._password = password
+    this._firstname = firstname
+    this._lastname = lastname
   }
 
     get email() {
@@ -65,11 +68,11 @@ export class UserEntity extends Entity<IUserModel> implements IUserEntity {
   /**
    * 
    * @param props : takes in user model
-   * @param id 
+   * @param id: optional
    * @returns : an custom result of an instance of entity class. Use the getValue() method in the Result context to get every field within the class
    */
 
-  static create(props: UserDTO, id?: Types.ObjectId): Result<UserEntity> {
-    return Result.ok(new UserEntity(id, props));
+  static create(props: UserDTO | UserModels, id?: Types.ObjectId): Result<UserEntity> {
+    return Result.ok(new UserEntity(props, id));
   }
 }

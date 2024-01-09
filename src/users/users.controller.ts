@@ -1,4 +1,4 @@
-import { Body, Controller, Get, InternalServerErrorException, Post } from '@nestjs/common';
+import { Body, Controller, Get, InternalServerErrorException, Param, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
@@ -12,6 +12,11 @@ export class UsersController {
   getUsers() {
     return this.usersService.getUsers()
   }
+
+  @Get("/:id")
+  getUserById(@Param("id") id: string) {
+    return this.usersService.getOneUserById(id)
+    }
 
     @ApiOperation({
     description: "Create a new user",
@@ -33,7 +38,7 @@ export class UsersController {
   @Post()
   createUser(@Body() createUserDto: CreateUserDto ) {
       try {
-        this.usersService.createUser(createUserDto)
+        return this.usersService.createUser(createUserDto)
       } catch (err) {
         throw InternalServerErrorException
       }

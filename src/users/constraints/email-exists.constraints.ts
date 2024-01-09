@@ -16,12 +16,12 @@ export class IsUserAlreadyExistConstraint implements ValidatorConstraintInterfac
         @Inject(TYPES.IUserRepository) private readonly userRepository: UserRepository,
     ){}
     async validate(email: any, args: ValidationArguments) {
-    const user = await this.userRepository.find(email);
-        if (user) {
-        return true
+      const userResponse = await this.userRepository.findByValues({email});
+    
+        if (userResponse.isSuccess) {
+        return false
     }
-      return false;
-    //   return true;
+      return true;
   }
 }
 

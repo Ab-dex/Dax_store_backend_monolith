@@ -19,12 +19,14 @@ export abstract class BaseRepository<TEntity, T extends BaseDocumentSchema> {
       _id: new Types.ObjectId(),
     });
 
-    console.log(doc)
     const result =  (await doc.save(options)).toJSON() as T;
     if (!result) {
       return Result.fail("An Error occured, unable to save document to db", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+   
     const entity = this.mapper.toDomain(result);
+
+    console.log("From repo", entity)
     return Result.ok(entity);
     }
   
@@ -43,8 +45,18 @@ export abstract class BaseRepository<TEntity, T extends BaseDocumentSchema> {
     }
   }
   
-  async findOne(filterQuery: FilterQuery<T>, projection?: ProjectionType<T | null>): Promise<Result<TEntity | null>> {
+  async findOne(filterQuery: any, projection?: ProjectionType<T | null>): Promise<Result<TEntity | null>> {
     const document = await this.model.findOne(filterQuery, projection);
+    if (!document) {
+      return Result.fail("No such entry exist in the database", HttpStatus.NOT_FOUND);
+    }
+    const entity: TEntity = this.mapper.toDomain(document);
+    return Result.ok(entity);
+  }
+
+
+  async findOneById(id: string): Promise<Result<TEntity | null>> {
+    const document = await this.model.findById(id);
     if (!document) {
       return Result.fail("No such entry exist in the database", HttpStatus.NOT_FOUND);
     }

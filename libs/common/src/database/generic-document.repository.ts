@@ -45,7 +45,7 @@ export abstract class GenericDocumentRepository<TEntity extends Entity<TEntity>,
   }
 
   async findById(id: string, projection?: ProjectionType<T> | null): Promise<Result<TEntity | null>> {
-    return this.findOne({ _id: new Types.ObjectId(id) } as FilterQuery<T>, projection)
+    return this.findOneById(id)
   }
 
   async findAndUpdate(id: string, update: UpdateQuery<T>): Promise<Result<TEntity | null>> {
