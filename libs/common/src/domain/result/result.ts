@@ -2,13 +2,14 @@ import { HttpStatus } from '@nestjs/common';
 export class Result<T> {
   isSuccess: boolean;
   private data?: any;
+  private error?: any;
   message: string;
   errorCode: HttpStatus;
   constructor(isSuccess: boolean, data?: any, message?: string, errorCode?: HttpStatus) {
-    this.data = data;
+    this.data = isSuccess ? data : undefined;
+    this.error = !isSuccess &&  {statusCode: errorCode, details: message}
     this.isSuccess = isSuccess;
-    this.message = message;
-    this.errorCode = errorCode;
+    this.message = isSuccess ? message : undefined;
   }
 
   getValue(): T {

@@ -13,8 +13,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
       const errorBody = Object.create(exception.getResponse() as object)
 
       response.status(status).json({
-          path: request.url,  
-          title: errorBody.error,
+          path: request.originalUrl,  
+        title: errorBody.error,
+          isSuccess: false,
           error: {
               statusCode: status,
               details: errorBody.message,
