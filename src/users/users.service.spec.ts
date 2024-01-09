@@ -9,6 +9,7 @@ import { UserDTO } from './dtos/user.dto';
 import { UserMapper } from './mapper/User.mapper';
 import { UserRepository } from './repository/user.repository';
 
+
 describe('UsersService', () => {
   let service: UsersService;
   let model: Model<UserModel>
@@ -29,6 +30,14 @@ describe('UsersService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+
+  /**
+   * should accept only allowed entity structure
+   * should return a promise containing the response data
+   * make sure same email is not used twice
+   * User has strong password
+   */
 
   describe('create', () => {
   it('create => should create a new user', async () => {

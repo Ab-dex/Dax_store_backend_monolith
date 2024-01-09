@@ -12,7 +12,7 @@ import { UserDocument, UserModel } from './model/user.model';
 @Injectable()
 export class UsersService {
     constructor(
-    private readonly userRepository: UserRepository,
+     private readonly userRepository: UserRepository,
      private  readonly userMapper: UserMapper
   ) {}
 
@@ -20,6 +20,7 @@ export class UsersService {
     
     const user = UserEntity.create({ ...props } as UserDTO).getValue();
     // const userDoc = this.userMapper.toModelData(user);
+    console.log(this.userMapper)
     const newUserModel: UserModel = {
             
             email: user.email,

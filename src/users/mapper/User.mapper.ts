@@ -5,6 +5,8 @@ import { UserDTO } from "../dtos/user.dto";
 
 export class UserMapper implements IMapper<UserEntity, UserModel>{
     toModelData(entity: UserEntity): UserModel {
+
+        console.log("I was called")
         const { email, password, firstname, lastname, id } = entity
         const newUserModel: UserModel = {
             
