@@ -1,4 +1,5 @@
-import { HttpStatus } from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
+import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
 export class Result<T> {
   isSuccess: boolean;
   private data?: any;
@@ -7,7 +8,7 @@ export class Result<T> {
   errorCode: HttpStatus;
   constructor(isSuccess: boolean, data?: any, message?: string, errorCode?: HttpStatus) {
     this.data = isSuccess ? data : undefined;
-    this.error = !isSuccess &&  {statusCode: errorCode, details: message}
+    this.error = !isSuccess ? {statusCode: errorCode, details: message} : undefined
     this.isSuccess = isSuccess;
     this.message = isSuccess ? message : undefined;
   }
