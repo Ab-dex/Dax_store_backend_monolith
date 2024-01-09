@@ -8,6 +8,7 @@ import { TYPES } from './constants/constants';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModels, UserSchema } from './model/user.model';
 import { ConfigModule } from '@nestjs/config';
+import { IsUserAlreadyExistConstraint } from './constraints/email-exists.constraints';
 
 @Module({
   imports: [MongooseModule.forFeature([
@@ -19,6 +20,7 @@ import { ConfigModule } from '@nestjs/config';
     useClass: UserRepository
   }, 
     UserMapper,
+    IsUserAlreadyExistConstraint,
   ]
 })
 export class UsersModule {}
