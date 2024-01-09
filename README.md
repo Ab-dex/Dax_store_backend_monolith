@@ -26,6 +26,8 @@ NB:
 
 # 1. Create user and auth modules
 
+- Intercept user and auth responses to remove password from response or use class transformer at the service level with @exclude validation on password in the entity class.
+
 # 2. My custom validator constraints
 - IsEmailExists
 

@@ -1,12 +1,11 @@
-import { IsEmail, IsNotEmpty, IsString } from "class-validator";
 import { IUser } from "./user.interface";
+import { Exclude } from "class-transformer";
 
 export class UserDTO implements IUser {
-  @IsNotEmpty()
-  @IsEmail()
+
+  id: string
   email: string;
 
-  @IsNotEmpty()
-    @IsString()
+  @Exclude()
   password: string;
 }

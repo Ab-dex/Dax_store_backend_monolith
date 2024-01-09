@@ -26,7 +26,7 @@ export abstract class BaseRepository<TEntity, T extends BaseDocumentSchema> {
   
   
   async find(
-    filterQuery: FilterQuery<T>,
+    filterQuery?: FilterQuery<T>,
     projection?: ProjectionType<T | null>,
     options?: QueryOptions<T>
   ): Promise<Result<TEntity[] | null>> {

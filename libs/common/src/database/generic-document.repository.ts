@@ -31,7 +31,7 @@ export abstract class GenericDocumentRepository<TEntity extends Entity<TEntity>,
   
   
   async findAll(
-    filterQuery: FilterQuery<T>,
+    filterQuery?: FilterQuery<T>,
     projection?: ProjectionType<T | null>,
     options?: QueryOptions<T>
   ): Promise<Result<TEntity[]>> {
