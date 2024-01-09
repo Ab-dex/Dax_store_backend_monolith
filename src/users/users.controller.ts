@@ -2,6 +2,7 @@ import { Body, Controller, Get, InternalServerErrorException, Param, Post } from
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam } from '@nestjs/swagger';
+import { UserDTO } from './dtos/user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -9,6 +10,11 @@ export class UsersController {
   
 
   @Get()
+    @ApiOkResponse({
+   type: UserDTO,
+   description: 'User credentials',
+   isArray: true
+ })
   getUsers() {
     return this.usersService.getUsers()
   }
