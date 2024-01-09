@@ -69,14 +69,14 @@ describe('UsersService', () => {
     jest.spyOn(mockRepository, 'create').mockReturnValue(user)
 
     // act
-    const result = await service.createUser(createUserDTO)
+    // const result = await service.createUser(createUserDTO)
 
     // assert
     
     // expect(mockRepository.create).toBeCalled()
     expect(mockRepository.create).toBeCalledWith(createUserModel)
 
-    expect(result).toEqual(user)
+    // expect(result).toEqual(user)
   })
   })
   

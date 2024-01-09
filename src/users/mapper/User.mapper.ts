@@ -2,20 +2,21 @@ import { IMapper } from "@app/common/domain/mapper";
 import { UserEntity } from "../entity/user.entity";
 import { UserDocument, UserModel } from "../model/user.model";
 import { UserDTO } from "../dtos/user.dto";
+import { Injectable } from "@nestjs/common";
 
-export class UserMapper implements IMapper<UserEntity, UserModel>{
-    toModelData(entity: UserEntity): UserModel {
+@Injectable()
+export class UserMapper implements IMapper<UserEntity, UserDocument>{
+    toModelData(entity: UserEntity): UserDocument {
 
-        console.log("I was called")
         const { email, password, firstname, lastname, id } = entity
-        const newUserModel: UserModel = {
+        const newUserModel: UserDocument = {
             
             email,
             firstname,
             lastname,
             password,
             created_At: Date.now().toString()
-        }
+        } as UserDocument
 
         return newUserModel
     }
