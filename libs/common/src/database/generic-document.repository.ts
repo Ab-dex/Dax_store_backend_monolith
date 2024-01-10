@@ -39,6 +39,10 @@ export abstract class GenericDocumentRepository<TEntity extends Entity<TEntity>,
   ): Promise<Result<TEntity[]>> {
     return this.find(filterQuery, projection, options)
   }
+
+  // async getCount() {
+  //   return this.
+  // }
   
   async findByValues(filterQuery: FilterQuery<T>, projection?: ProjectionType<T | null>): Promise<Result<TEntity>> {
    return this.findOne(filterQuery, projection)

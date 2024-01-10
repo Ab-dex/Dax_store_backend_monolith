@@ -2,7 +2,7 @@ interface IValueObjectProps {
   [index: string]: any;
 }
 
-export abstract class ValueObjects<T extends IValueObjectProps> {
+export abstract class ValueObjects<T> {
   protected readonly props?: T;
   constructor(props: T) {
 

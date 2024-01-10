@@ -10,6 +10,7 @@ import { UserDocument, UserModels } from './model/user.model';
 import { TYPES } from './constants/constants';
 import { ConfigService } from '@nestjs/config';
 import { Types } from 'mongoose';
+import { GetUsersQueryDTO } from './dtos/getUserQuery.dto';
 
 @Injectable()
 export class UsersService {
@@ -35,11 +36,40 @@ export class UsersService {
     return Result.ok(serializedUser)
   }
 
-  async getUsers(): Promise<Result<UserDTO[]>> {
-    const users = await this.userRepository.findAll()
-    const serializedUser = users.getValue().map(user => plainToInstance(UserDTO, user, {excludeExtraneousValues: true}))
+  async getUsers(query?: GetUsersQueryDTO | null): Promise<Result<any>> {
+
+    const { limit, currentPage, firstname, lastname, email } = query;
+    let pageCount: Number
+
+    const currPage = Number(currentPage) || 1;
+    const responsePerPage = Number(limit) || 2;
+    const skip = currPage * (responsePerPage - 1)
+
+    const filterObj = {
+      ...(lastname && { lastname: lastname.trim().charAt(0).toUpperCase() + lastname.trim().slice(1) }),
+      ...(firstname && { firstname: firstname.trim().charAt(0).toUpperCase() + firstname.trim().slice(1) }),
+      ...(email && { email: email }),
+    }
     
-    return Result.ok(serializedUser)
+
+    const users = await this.userRepository.findAll(filterObj, null, { limit: limit || 10, skip: skip })
+    
+    
+    if (!limit) {
+      pageCount = (await this.userRepository.getCount(filterObj)).getValue()
+    }
+
+    const serializedUser = users.getValue().map(user => {
+
+      const {email, id: userId, firstname, lastname} = user
+      return plainToInstance(UserDTO, {
+      id: userId.toHexString(),
+      email,
+      firstname,
+      lastname
+    }, {excludeExtraneousValues: true})
+    })
+    return Result.ok({users: [...serializedUser], pageCount})
    
   }
 
@@ -48,7 +78,7 @@ export class UsersService {
       const user = await this.userRepository.findById(id)
     const {id: userId, email, firstname, lastname} = user.getValue()
     
-    // cant directly spread user.getvalue() because an instance of entity was created and returned from the findById method with public getters and setters that can be used to access properties
+    // can't directly spread user.getvalue() because an instance of entity was created and returned from the findById method with public getters and setters that can be used to access properties
     const serializedUser = plainToInstance(UserDTO, {
       id: userId.toHexString(),
       email,

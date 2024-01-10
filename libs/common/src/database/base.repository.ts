@@ -26,7 +26,6 @@ export abstract class BaseRepository<TEntity, T extends BaseDocumentSchema> {
    
     const entity = this.mapper.toDomain(result);
 
-    console.log("From repo", entity)
     return Result.ok(entity);
     }
   
@@ -37,19 +36,36 @@ export abstract class BaseRepository<TEntity, T extends BaseDocumentSchema> {
     options?: QueryOptions<T>
   ): Promise<Result<TEntity[] | null>> {
     try {
-      const documents = await this.model.find(filterQuery, projection, {...options, lean: true});
-    const entities: TEntity[] = documents?.length ? documents.map((document) => this.mapper.toDomain(document as Model<T> | any)) : [];
-    return Result.ok(entities);
+      console.log(filterQuery)
+      const documents = await this.model.find(filterQuery, projection);
+      
+      
+      const entities: TEntity[] = documents?.length ? documents.map((document) => this.mapper.toDomain(document as Model<T> | any)) : [];
+      
+
+      console.log(entities)
+      return Result.ok(entities);
+      
+
     } catch (err) {
      Result.fail("An error occurred, Can not retrieve data from database", HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  async getCount(filterQuery?: FilterQuery<T>): Promise<Result<Number>> {
+    const count = await this.model.countDocuments(filterQuery, {lean: true})
+    return Result.ok(count)
+  }
   
   async findOne(filterQuery: any, projection?: ProjectionType<T | null>): Promise<Result<TEntity | null>> {
     const document = await this.model.findOne(filterQuery, projection);
+
+
     if (!document) {
       return Result.fail("No such entry exist in the database", HttpStatus.NOT_FOUND);
     }
+
+    
     const entity: TEntity = this.mapper.toDomain(document);
     return Result.ok(entity);
   }

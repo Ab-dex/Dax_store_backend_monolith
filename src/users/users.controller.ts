@@ -1,8 +1,9 @@
-import { Body, Controller, Get, InternalServerErrorException, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, InternalServerErrorException, Param, Post, Query, ValidationPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam } from '@nestjs/swagger';
 import { UserDTO } from './dtos/user.dto';
+import { GetUsersQueryDTO } from './dtos/getUserQuery.dto';
 
 @Controller('users')
 export class UsersController {
@@ -15,8 +16,12 @@ export class UsersController {
    description: 'User credentials',
    isArray: true
  })
-  getUsers() {
-    return this.usersService.getUsers()
+  getUsers(@Query(new ValidationPipe({
+			transform: true,
+			transformOptions: {enableImplicitConversion: true},
+			forbidNonWhitelisted: true
+		})) query: GetUsersQueryDTO) {
+    return this.usersService.getUsers(query)
   }
 
   @Get("/:id")
