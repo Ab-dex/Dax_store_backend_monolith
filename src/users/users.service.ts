@@ -40,10 +40,11 @@ export class UsersService {
 
     const { limit, currentPage, firstname, lastname, email } = query;
     let pageCount: Number
+    
 
     const currPage = Number(currentPage) || 1;
-    const responsePerPage = Number(limit) || 2;
-    const skip = currPage * (responsePerPage - 1)
+    const responsePerPage = Number(limit) || undefined;
+    const skip = responsePerPage * (currPage - 1)
 
     const filterObj = {
       ...(lastname && { lastname: lastname.trim().charAt(0).toUpperCase() + lastname.trim().slice(1) }),
@@ -52,11 +53,13 @@ export class UsersService {
     }
     
 
-    const users = await this.userRepository.findAll(filterObj, null, { limit: limit || 10, skip: skip })
+    const users = await this.userRepository.findAll(filterObj, null, { limit: responsePerPage, ...(limit && {skip: skip}) })
     
+    const itemCount = (await this.userRepository.getCount(filterObj)).getValue()
     
-    if (!limit) {
-      pageCount = (await this.userRepository.getCount(filterObj)).getValue()
+
+    if (limit) {
+      pageCount = Math.ceil(itemCount as number / limit)
     }
 
     const serializedUser = users.getValue().map(user => {
@@ -69,7 +72,7 @@ export class UsersService {
       lastname
     }, {excludeExtraneousValues: true})
     })
-    return Result.ok({users: [...serializedUser], pageCount})
+    return Result.ok({users: [...serializedUser], pageCount, itemCount, ...({page: currPage, isNext: Number(currPage) < Number(pageCount), isPrevious: Number(currPage) > 1})})
    
   }
 
