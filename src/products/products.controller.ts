@@ -2,7 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiExcludeEndpoint, ApiInternalServerErrorResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ProductDTO } from './dto/product.dto';
 
 @ApiTags("Products")
 @Controller('products')
@@ -11,11 +12,29 @@ export class ProductsController {
 
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
-    console.log(createProductDto)
     return this.productsService.create(createProductDto);
   }
 
+
+  /**
+   * 
+   * @returns returns list of seeded users
+   */
+
+  @Post("seed")
+    // @ApiExcludeEndpoint()
+  @ApiCreatedResponse({ description: "List of products created" })
+    @ApiInternalServerErrorResponse({description: "Something went wrong"})
+  seedProductsDb() {
+    return this.productsService.seedDb()
+    }
+
   @Get()
+    @ApiOkResponse({
+   type: ProductDTO,
+   description: 'Products list',
+   isArray: true
+    })
   findAll() {
     return this.productsService.findAll();
   }

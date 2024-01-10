@@ -5,7 +5,7 @@ import { GenericDocumentRepository } from "@app/common/database/generic-document
 import { UserEntity } from "../entity/user.entity";
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { UserMapper } from "../mapper/User.mapper";
+import { UserMapper } from "../../mappers/User.mapper";
 
 @Injectable()
 export class UserRepository extends GenericDocumentRepository<UserEntity, UserDocument>{

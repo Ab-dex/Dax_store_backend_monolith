@@ -16,7 +16,7 @@ export class UserEntity extends Entity<IUserModel> implements IUserEntity {
   private _firstname: string
   private _lastname: string
 
-  constructor({ email, password, firstname, lastname}: UserModels | UserDTO,_id: Types.ObjectId  ) {
+  constructor({ email, password, firstname, lastname}: UserModels | UserDTO, _id: Types.ObjectId ) {
     super(_id)
     this._email = email
     this._password = password

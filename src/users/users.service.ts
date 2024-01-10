@@ -1,25 +1,27 @@
 import { HttpStatus, Inject, Injectable, InternalServerErrorException, NotAcceptableException, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { UserMapper } from './mapper/User.mapper';
+import { UserMapper } from '../mappers/User.mapper';
 import { UserEntity } from './entity/user.entity';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { Result } from '@app/common/domain/result';
 import { UserDTO } from './dtos/user.dto';
 import { UserRepository } from './repository/user.repository';
 import { plainToInstance } from 'class-transformer';
-import { UserDocument, UserModels } from './model/user.model';
-import { TYPES } from './constants/constants';
-import { ConfigService } from '@nestjs/config';
-import { Types } from 'mongoose';
+import { UserDocument } from './model/user.model';
 import { GetUsersQueryDTO } from './dtos/getUserQuery.dto';
+import { TYPE } from 'src/Constants';
 
 @Injectable()
 export class UsersService {
     constructor(
-     @Inject(TYPES.IUserRepository) private readonly userRepository: UserRepository,
+     @Inject(TYPE.IUserRepository) private readonly userRepository: UserRepository,
       protected readonly userMapper: UserMapper,
-     private readonly configService: ConfigService
   ) {}
 
+  /**
+   * 
+   * @param props takes in dto
+   * @returns returns response dto
+   */
   async createUser(props: CreateUserDto): Promise<Result<UserDTO>> {
     
     // create an enitity from createUserDto
@@ -35,6 +37,8 @@ export class UsersService {
     const serializedUser = plainToInstance(UserDTO, result.getValue(), {excludeExtraneousValues: true})
     return Result.ok(serializedUser)
   }
+
+
 
   /**
    * 

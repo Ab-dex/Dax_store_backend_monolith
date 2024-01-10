@@ -1,15 +1,14 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
-import { Types } from 'src/Constants';
 import { UserRepository } from './repository/user.repository';
-import { UserMapper } from './mapper/User.mapper';
-import { TYPES } from './constants/constants';
+import { UserMapper } from '../mappers/User.mapper';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserModels, UserSchema } from './model/user.model';
+import { UserSchema } from './model/user.model';
 import { ConfigModule } from '@nestjs/config';
 import { IsUserAlreadyExistConstraint } from './constraints/email-exists.constraints';
 import { CheckGetRequestBodyMiddleware } from '@app/common/middlewares/checkGetRequestBody.middleware';
+import { TYPE } from 'src/Constants';
 
 @Module({
   imports: [MongooseModule.forFeature([
@@ -17,7 +16,7 @@ import { CheckGetRequestBodyMiddleware } from '@app/common/middlewares/checkGetR
     ]),ConfigModule],
   controllers: [UsersController],
   providers: [UsersService,{
-    provide: TYPES.IUserRepository,
+    provide: TYPE.IUserRepository,
     useClass: UserRepository
   }, 
     UserMapper,

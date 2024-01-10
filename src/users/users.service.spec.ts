@@ -1,18 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
-import { Types } from 'src/Constants';
 import { Model } from 'mongoose';
-import { UserModel } from './model/user.model';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { Result } from '@app/common/domain/result';
 import { UserDTO } from './dtos/user.dto';
-import { UserMapper } from './mapper/User.mapper';
+import { UserMapper } from '../mappers/User.mapper';
 import { UserRepository } from './repository/user.repository';
+import { UserModels } from './model/user.model';
 
 
 describe('UsersService', () => {
   let service: UsersService;
-  let model: Model<UserModel>
+  let model: Model<UserModels>
   let userMapper: UserMapper
 
   const mockRepository = {
@@ -58,7 +57,7 @@ describe('UsersService', () => {
       lastname: "Chris",
       password: "written",
         created_At: "12345"
-    } as UserModel
+    } as UserModels
 
     const user = Result.ok({
       id: Date.now().toString(),

@@ -1,7 +1,7 @@
 import { IMapper } from "@app/common/domain/mapper";
-import { UserEntity } from "../entity/user.entity";
-import { UserDocument, UserModels } from "../model/user.model";
-import { UserDTO } from "../dtos/user.dto";
+import { UserEntity } from "../users/entity/user.entity";
+import { UserDocument, UserModels } from "../users/model/user.model";
+import { UserDTO } from "../users/dtos/user.dto";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
@@ -10,7 +10,6 @@ export class UserMapper implements IMapper<UserEntity, UserDocument>{
 
         const { email, password, firstname, lastname, id } = entity
         const newUserModel: UserDocument = {
-            
             email,
             firstname,
             lastname,

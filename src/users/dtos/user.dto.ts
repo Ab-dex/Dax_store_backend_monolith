@@ -4,7 +4,6 @@ import { Exclude, Expose } from "class-transformer";
 
 export class UserDTO implements IUser {
 
-
   @Expose()
     @ApiProperty({ required: false })
   id: string
@@ -21,6 +20,7 @@ export class UserDTO implements IUser {
   @Expose()
     @ApiProperty({ required: false })
   lastname: string;
+  
   @Exclude()
   password: string;
 }

@@ -1,7 +1,5 @@
 export const TYPES = {
-  IBookRepoitory: "IBookRepoitory",
   IUserRepository: "IUserRepository",
-  IApplicationLogger: "IApplicationLogger",
 };
 
 export const APIResponseMessage = {

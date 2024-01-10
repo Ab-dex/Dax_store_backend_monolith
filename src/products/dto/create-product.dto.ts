@@ -19,7 +19,13 @@ export class CreateProductDto {
   @IsNotEmpty()
       @IsString()
   @ApiProperty({ required: true })
-  description: string;
+    description: string;
+  
+  @IsDefined()
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ required: true })
+  categoryId: string;
     
   @IsDefined()
   @IsNotEmpty()
@@ -30,7 +36,9 @@ export class CreateProductDto {
     
     @IsNumber()
   @ApiProperty({required: true})
-  price: number
+    price: number
+    
+    
     @IsNumber()
   @ApiProperty({required: true})
   quantity: number
