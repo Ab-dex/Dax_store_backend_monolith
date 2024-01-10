@@ -59,7 +59,10 @@ export class UsersService {
       pageCount = Math.ceil(itemCount as number / limit)
     }
     
-    const offset = !(Number(currPage) <= Number(pageCount)) ? Number(pageCount) : skip
+    // offset it by the pagecount if requested page from client is greater than pagecount
+    const offset = (Number(currPage) > Number(pageCount)) ? responsePerPage * (Number(pageCount) - 1) : skip
+
+
     const users = await this.userRepository.findAll(filterObj, null, { limit: responsePerPage, ...(limit && {skip: offset}) })
     
    
