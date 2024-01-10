@@ -1,10 +1,11 @@
 import { Body, Controller, Get, InternalServerErrorException, Param, Post, Query, ValidationPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/createUser.dto';
-import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiQuery } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { UserDTO } from './dtos/user.dto';
 import { GetUsersQueryDTO } from './dtos/getUserQuery.dto';
 
+@ApiTags("Users")
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) { }
@@ -43,9 +44,11 @@ export class UsersController {
     })
   getUsers(@Query(new ValidationPipe({
 			transform: true,
-			transformOptions: {enableImplicitConversion: true},
-			forbidNonWhitelisted: true
-		})) query: GetUsersQueryDTO) {
+    transformOptions: { enableImplicitConversion: true },
+    forbidNonWhitelisted: true,
+    
+  })) query: GetUsersQueryDTO) {
+    
     return this.usersService.getUsers(query)
   }
 
@@ -72,8 +75,15 @@ export class UsersController {
     })
   getUserById(@Param("id") id: string) {
     return this.usersService.getOneUserById(id)
-    }
+  }
+  
 
+
+/**
+ * 
+ * @param createUserDto 
+ * @returns create new user 
+ */
     @ApiOperation({
     description: "Create a new user",
     summary: "Sign Up"

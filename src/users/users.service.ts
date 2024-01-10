@@ -36,6 +36,12 @@ export class UsersService {
     return Result.ok(serializedUser)
   }
 
+  /**
+   * 
+   * @param query 
+   * @returns filtered users or all users
+   */
+
   async getUsers(query?: GetUsersQueryDTO | null): Promise<Result<any>> {
 
     const { limit, currentPage, firstname, lastname, email } = query;
