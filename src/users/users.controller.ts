@@ -1,7 +1,7 @@
 import { Body, Controller, Get, InternalServerErrorException, Param, Post, Query, ValidationPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/createUser.dto';
-import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { UserDTO } from './dtos/user.dto';
 import { GetUsersQueryDTO } from './dtos/getUserQuery.dto';
 
@@ -15,7 +15,32 @@ export class UsersController {
    type: UserDTO,
    description: 'User credentials',
    isArray: true
- })
+    })
+  @ApiQuery({
+    name: "firstname",
+    type: String,
+      required: false
+  })
+    @ApiQuery({
+    name: "lastname",
+    type: String,
+      required: false
+    })
+    @ApiQuery({
+    name: "email",
+    type: String,
+      required: false
+    })
+    @ApiQuery({
+    name: "limit",
+    type: Number,
+      required: false
+    })
+    @ApiQuery({
+    name: "currentPage",
+    type: Number,
+      required: false
+    })
   getUsers(@Query(new ValidationPipe({
 			transform: true,
 			transformOptions: {enableImplicitConversion: true},

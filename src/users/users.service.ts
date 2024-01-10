@@ -53,14 +53,16 @@ export class UsersService {
     }
     
 
-    const users = await this.userRepository.findAll(filterObj, null, { limit: responsePerPage, ...(limit && {skip: skip}) })
-    
     const itemCount = (await this.userRepository.getCount(filterObj)).getValue()
-    
 
-    if (limit) {
+     if (limit) {
       pageCount = Math.ceil(itemCount as number / limit)
     }
+    
+    const offset = !(Number(currPage) <= Number(pageCount)) ? Number(pageCount) : skip
+    const users = await this.userRepository.findAll(filterObj, null, { limit: responsePerPage, ...(limit && {skip: offset}) })
+    
+   
 
     const serializedUser = users.getValue().map(user => {
 
