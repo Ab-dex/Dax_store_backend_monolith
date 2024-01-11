@@ -1,9 +1,9 @@
 import { Entity } from "@app/common/domain/entity";
 
 export interface IProductEntity extends Entity<IProductEntity>{
-get productName() 
+get name() 
   
-set productName(productName: string)
+set name(name: string)
     
 
 get description(): string
@@ -35,4 +35,6 @@ get description(): string
 
 
   set sizes(sizes: number[])
+
+  toString(): IProductEntity
 }

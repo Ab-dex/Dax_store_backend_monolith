@@ -34,17 +34,23 @@ export class ProductsService {
     const returnedSeeds = (await this.productsRepository.insertMany(doc)).getValue()
 
 
-    const serializedProduct = returnedSeeds.map((seed: IProductEntity) => {
-      const { id, productName, sizes, description, brandImage, images, price, quantity } = seed
-      
-      console.log(id)
-      return plainToInstance(ProductDTO, {id: id.toHexString(), name: productName, sizes, description, brandImage, images, price, quantity})
-    })
+    const serializedProduct = returnedSeeds.map((seed: IProductEntity) =>  plainToInstance(ProductDTO, seed)
+    )
     return Result.ok(serializedProduct)
   }
 
-  findAll() {
-    return `This action returns all products`;
+  async updateSeed(props: any): Promise<Result<any>> {
+    // this.productsRepository.upsert()
+    return Result.ok({})
+  }
+
+  async findAll() {
+    
+    let productsList: IProductEntity[] = (await this.productsRepository.findAll()).getValue()
+
+    const serializedProduct: ProductDTO[] = productsList.map((product) => plainToInstance(ProductDTO, product))
+
+    return Result.ok(serializedProduct)
   }
 
   findOne(id: number) {

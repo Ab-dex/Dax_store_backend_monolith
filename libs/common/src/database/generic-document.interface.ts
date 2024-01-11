@@ -7,8 +7,8 @@ export interface IGenericDocument<TEntity, T extends BaseDocumentSchema> {
 
   findById(id: any, projection?: ProjectionType<T> | null): Promise<Result<TEntity | null>>;
 
-  find(
-    filterQuery: FilterQuery<T>,
+  findAll(
+    filterQuery?: FilterQuery<T>,
     projection?: ProjectionType<T | null>,
     options?: QueryOptions<T>
   ): Promise<Result<TEntity[] | null>>;

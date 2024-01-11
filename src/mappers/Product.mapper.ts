@@ -1,20 +1,18 @@
-import { IMapper } from "@app/common/domain/mapper";
 import { Injectable } from "@nestjs/common";
 import { ProductEntity } from "src/products/entities/product.entity";
 import { ProductDocument, ProductModel } from "src/products/model/product.model";
 import { IProductMapper } from "./product-mapper.interface";
 import { IProductEntity } from "src/products/entities/product-entity.interface";
-import { Result } from "@app/common/domain/result";
 import { Types } from "mongoose";
 
 @Injectable()
 export class ProductMapper implements IProductMapper{
     toModelData(entity: ProductEntity): ProductDocument {
      
-        const {description, productName, brandImage, price, quantity, images} = entity
+        const {description, name, brandImage, price, quantity, images} = entity
         const newProductModel: ProductDocument = {
             description,
-            name: productName,
+            name: name,
             images,
             price,
             quantity,
@@ -32,9 +30,9 @@ export class ProductMapper implements IProductMapper{
      * extract _id from the model and pass it separately to the toDomain method to create an entity
      * @returns instance of an entity
      */
-    toDomain(model: ProductDocument): ProductEntity {
+    toDomain(model: ProductDocument): IProductEntity {
         
-        const products: ProductEntity = ProductEntity.create(model, model._id).getValue();
+        const products: IProductEntity = ProductEntity.create(model, model._id).getValue();
         return products;
     }
     

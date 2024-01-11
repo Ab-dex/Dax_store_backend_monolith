@@ -25,12 +25,12 @@ export class ProductEntity extends Entity<IProductEntity> implements IProductEnt
       this._quantity = quantity
   }
 
-    get productName() {
+    get name() {
     return this._name
     }
   
-  set productName(productName: string) {
-    this._name = productName
+  set name(name: string) {
+    this._name = name
   }
   get description(): string {
     return this._description
@@ -89,6 +89,9 @@ export class ProductEntity extends Entity<IProductEntity> implements IProductEnt
   }
 
 
+  toString(): IProductEntity {
+    return ({id: this.id, name: this.name, description: this.description, brandImage: this.brandImage, sizes: this.sizes, images: this.images, quantity: this.quantity, price: this.price}) as IProductEntity
+  }
 
   // put these things in the constructor, make them private and create custom getters and setters for them to prevent null values
 
@@ -100,7 +103,7 @@ export class ProductEntity extends Entity<IProductEntity> implements IProductEnt
    * @returns : an custom result of an instance of entity class. Use the getValue() method in the Result context to get every field within the class
    */
 
-  static create(props: Partial<ProductDTO> | ProductModel, id?: Types.ObjectId): Result<ProductEntity> {
-    return Result.ok(new ProductEntity(props, id));
+  static create(props: Partial<ProductDTO> | ProductModel, id?: Types.ObjectId): Result<IProductEntity> {
+    return Result.ok(new ProductEntity(props, id).toString());
   }
 }

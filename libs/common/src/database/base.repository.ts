@@ -36,14 +36,10 @@ export abstract class BaseRepository<TEntity, T extends BaseDocumentSchema> {
     options?: QueryOptions<T>
   ): Promise<Result<TEntity[] | null>> {
     try {
-      console.log(filterQuery)
       const documents = await this.model.find(filterQuery, projection, options);
-      
-      
+     
       const entities: TEntity[] = documents?.length ? documents.map((document) => this.mapper.toDomain(document as Model<T> | any)) : [];
       
-
-     
       return Result.ok(entities);
       
 
