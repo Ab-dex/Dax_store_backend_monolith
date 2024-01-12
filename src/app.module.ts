@@ -7,9 +7,17 @@ import { UserRepository } from './users/repository/user.repository';
 import { ConfigsModule } from '@app/common/config/core_config/configs.module';
 import { DatabaseModule } from '@app/common/database';
 import { ProductsModule } from './products/products.module';
+import { AuthsModule } from './auths/auths.module';
 
 @Module({
-  imports: [ConfigsModule, WinstonModule.forRoot({}), UsersModule, DatabaseModule, ProductsModule],
+  imports: [
+    ConfigsModule,
+    WinstonModule.forRoot({}),
+    AuthsModule,
+    UsersModule,
+    DatabaseModule,
+    ProductsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
