@@ -10,6 +10,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
+import { NonnegativeInteger } from "@app/common/utils/NonNegativeInteger.type";
 
 export class CreateProductDto {
   @IsDefined()
@@ -47,11 +48,11 @@ export class CreateProductDto {
 
   @IsNumber()
   @ApiProperty({ required: true })
-  price: number;
+  price: NonnegativeInteger<number>;
 
   @IsNumber()
   @ApiProperty({ required: true })
-  quantity: number;
+  quantity: NonnegativeInteger<number>;
 
   @IsOptional()
   @IsArray({ each: true })

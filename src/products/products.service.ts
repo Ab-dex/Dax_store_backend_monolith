@@ -8,9 +8,9 @@ import { ProductEntity } from './entities/product.entity';
 import { initProducts } from 'src/seeds/products';
 import { IProductRepository } from './repository/product-repo.interface';
 import { IProductMapper } from 'src/mappers/product-mapper.interface';
-import { Types } from 'mongoose';
 import { plainToInstance } from 'class-transformer';
 import { IProductEntity } from './entities/product-entity.interface';
+import { IProductModel } from './model/product-model.interface';
 
 @Injectable()
 export class ProductsService {
@@ -25,7 +25,7 @@ export class ProductsService {
   }
 
   async seedDb(): Promise<Result<ProductDTO[]>> {
-    const doc = initProducts.map((product) =>
+    const doc: IProductModel[] = initProducts.map((product) =>
       this.mapper.toModelData(
         ProductEntity.create({
           ...product,
@@ -34,7 +34,7 @@ export class ProductsService {
       ),
     );
 
-    const returnedSeeds = (
+    const returnedSeeds: IProductEntity[] = (
       await this.productsRepository.insertMany(doc)
     ).getValue();
 
@@ -61,15 +61,21 @@ export class ProductsService {
     return Result.ok(serializedProduct);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(id: string) {
+    const product = (await this.productsRepository.findById(id)).getValue();
+
+    return plainToInstance(ProductDTO, product);
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: string, updateProductDto: UpdateProductDto) {
+    const product = (
+      await this.productsRepository.findOneAndUpdate(id, updateProductDto)
+    ).getValue();
+    return Result.ok(plainToInstance(ProductDTO, product));
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: string) {
+    const res = (await this.productsRepository.deleteOne({ id }))
+    return Result.ok(res);
   }
 }
