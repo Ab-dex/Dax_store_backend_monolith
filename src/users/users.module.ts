@@ -11,19 +11,22 @@ import { CheckGetRequestBodyMiddleware } from '@app/common/middlewares/checkGetR
 import { TYPE } from 'src/Constants';
 
 @Module({
-  imports: [MongooseModule.forFeature([
-      { name: "Users", schema: UserSchema },
-    ]),ConfigModule],
+  imports: [
+    MongooseModule.forFeature([{ name: 'Users', schema: UserSchema }]),
+    ConfigModule,
+  ],
   controllers: [UsersController],
-  providers: [UsersService,{
-    provide: TYPE.IUserRepository,
-    useClass: UserRepository
-  }, 
+  providers: [
+    UsersService,
+    {
+      provide: TYPE.IUserRepository,
+      useClass: UserRepository,
+    },
     UserMapper,
     IsUserAlreadyExistConstraint,
-  ]
+  ],
 })
-export class UsersModule implements NestModule{
+export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(CheckGetRequestBodyMiddleware).forRoutes('*');
   }

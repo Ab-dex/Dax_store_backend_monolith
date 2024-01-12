@@ -1,27 +1,17 @@
-import { BaseModelInterface } from "@app/common/database/base-document.interface"
+import { BaseModelInterface } from '@app/common/database/base-document.interface';
 
-export interface IProductModel extends BaseModelInterface{
+export interface IProductModel extends BaseModelInterface {
+  name: string;
 
-    
-    name: string
+  description: string;
 
-    
-    description: string
+  brandImage: string;
 
-    
-    brandImage: string
+  price: number;
 
-    
-    price: number
+  quantity: number;
 
-    
-    quantity: number
+  images: string[];
 
-
-    
-    images: string[]
-
-    
-    sizes: number[]
-
+  sizes: number[];
 }

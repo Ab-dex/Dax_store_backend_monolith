@@ -8,20 +8,20 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ProductSchema } from './model/product.model';
 
 @Module({
-  imports: [MongooseModule.forFeature([
-      { name: "Product", schema: ProductSchema },
-    ])],
+  imports: [
+    MongooseModule.forFeature([{ name: 'Product', schema: ProductSchema }]),
+  ],
   controllers: [ProductsController],
-  providers: [ProductsService,
+  providers: [
+    ProductsService,
     {
-    provide: TYPE.IProductsRepository,
-    useClass: ProductsRepository
+      provide: TYPE.IProductsRepository,
+      useClass: ProductsRepository,
     },
     {
-    provide: TYPE.IProducMapper,
-    useClass: ProductMapper
-  }
-    ,
-  ]
+      provide: TYPE.IProducMapper,
+      useClass: ProductMapper,
+    },
+  ],
 })
 export class ProductsModule {}

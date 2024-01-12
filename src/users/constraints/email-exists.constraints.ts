@@ -11,23 +11,25 @@ import { TYPE } from 'src/Constants';
 
 @ValidatorConstraint({ async: true })
 @Injectable()
-export class IsUserAlreadyExistConstraint implements ValidatorConstraintInterface {
-    constructor(
-        @Inject(TYPE.IUserRepository) private readonly userRepository: UserRepository,
-    ){}
-    async validate(email: any, args: ValidationArguments) {
-      const userResponse = await this.userRepository.findByValues({email});
-    
-        if (userResponse.isSuccess) {
-        return false
+export class IsUserAlreadyExistConstraint
+  implements ValidatorConstraintInterface
+{
+  constructor(
+    @Inject(TYPE.IUserRepository)
+    private readonly userRepository: UserRepository,
+  ) {}
+  async validate(email: any, args: ValidationArguments) {
+    const userResponse = await this.userRepository.findByValues({ email });
+
+    if (userResponse.isSuccess) {
+      return false;
     }
-      return true;
+    return true;
   }
 }
 
-
 export function IsUserAlreadyExist(validationOptions?: ValidationOptions) {
-  return function (object: Object, propertyName: string) {
+  return function (object: NonNullable<unknown>, propertyName: string) {
     registerDecorator({
       target: object.constructor,
       propertyName: propertyName,

@@ -14,43 +14,51 @@ import { IProductEntity } from './entities/product-entity.interface';
 
 @Injectable()
 export class ProductsService {
-
   constructor(
-    @Inject(TYPE.IProductsRepository) private productsRepository: IProductRepository,
-    @Inject(TYPE.IProducMapper) private mapper: IProductMapper
-  ) {
-    
-  }
+    @Inject(TYPE.IProductsRepository)
+    private productsRepository: IProductRepository,
+    @Inject(TYPE.IProducMapper) private mapper: IProductMapper,
+  ) {}
 
   create(createProductDto: CreateProductDto) {
     return 'This action adds a new product';
   }
 
   async seedDb(): Promise<Result<ProductDTO[]>> {
+    const doc = initProducts.map((product) =>
+      this.mapper.toModelData(
+        ProductEntity.create({
+          ...product,
+          brandImage: product.images[0],
+        }).getValue(),
+      ),
+    );
 
+    const returnedSeeds = (
+      await this.productsRepository.insertMany(doc)
+    ).getValue();
 
-    const doc = initProducts.map((product) => this.mapper.toModelData(ProductEntity.create({ ...product, brandImage: product.images[0] }).getValue()))
-
-    const returnedSeeds = (await this.productsRepository.insertMany(doc)).getValue()
-
-
-    const serializedProduct = returnedSeeds.map((seed: IProductEntity) =>  plainToInstance(ProductDTO, seed)
-    )
-    return Result.ok(serializedProduct)
+    const serializedProduct = returnedSeeds.map((seed: IProductEntity) =>
+      plainToInstance(ProductDTO, seed),
+    );
+    return Result.ok(serializedProduct);
   }
 
   async updateSeed(props: any): Promise<Result<any>> {
     // this.productsRepository.upsert()
-    return Result.ok({})
+    return Result.ok({});
   }
 
   async findAll() {
-    
-    let productsList: IProductEntity[] = (await this.productsRepository.findAll()).getValue()
+    const productsList: IProductEntity[] = (
+      await this.productsRepository.findAll()
+    ).getValue();
 
-    const serializedProduct: ProductDTO[] = productsList.map((product) => plainToInstance(ProductDTO, product))
+    const serializedProduct: ProductDTO[] = productsList.map((product) =>
+      plainToInstance(ProductDTO, product),
+    );
 
-    return Result.ok(serializedProduct)
+    return Result.ok(serializedProduct);
   }
 
   findOne(id: number) {

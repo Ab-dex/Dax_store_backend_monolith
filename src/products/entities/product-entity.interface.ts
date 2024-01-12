@@ -1,40 +1,33 @@
-import { Entity } from "@app/common/domain/entity";
+import { Entity } from '@app/common/domain/entity';
 
-export interface IProductEntity extends Entity<IProductEntity>{
-get name() 
-  
-set name(name: string)
-    
+export interface IProductEntity extends Entity<IProductEntity> {
+  get name();
 
-get description(): string
+  set name(name: string);
 
-  set description(description: string) 
+  get description(): string;
 
+  set description(description: string);
 
-  get brandImage(): string 
+  get brandImage(): string;
 
-  set brandImage(brandImage: string)
+  set brandImage(brandImage: string);
 
+  get price(): number;
 
-  get price(): number 
+  set price(price: number);
 
+  get quantity(): number;
 
-  set price(price: number)
-    
-    get quantity(): number
-    
+  set quantity(quantity: number);
 
-    set quantity(quantity: number) 
-    
+  get images(): string[];
 
-      get images(): string[] 
+  set images(images: string[]);
 
-  set images(images: string[])
-    
-    get sizes(): number[]
+  get sizes(): number[];
 
+  set sizes(sizes: number[]);
 
-  set sizes(sizes: number[])
-
-  toString(): IProductEntity
+  toString(): IProductEntity;
 }
