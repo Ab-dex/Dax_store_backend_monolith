@@ -1,19 +1,18 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
 import { UsersService } from '../users/users.service';
+import { RegisterUserDto } from './dto/create-auth.dto';
 
 @Injectable()
 export class AuthsService {
   constructor(
     @Inject(forwardRef(() => UsersService)) private userService: UsersService,
   ) {}
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+  create(createAuthDto: RegisterUserDto) {
+    return this.userService.createUser(createAuthDto);
   }
 
-  async signIn(username: string, password: string) {
-    const user = await this.userService.verifyUser('aboje@gmail.com');
-    console.log(user);
+  async signIn(email: string, password: string) {
+    const user = await this.userService.validateUser(email);
     return user;
   }
 }

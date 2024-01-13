@@ -18,6 +18,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { ProductDTO } from './dto/product.dto';
+import { AllowUnauthenticatedRequest } from '@app/common/utils/decorators/decorator';
 
 @ApiTags('Products')
 @Controller('products')
@@ -48,11 +49,13 @@ export class ProductsController {
     description: 'Products list',
     isArray: true,
   })
+  @AllowUnauthenticatedRequest()
   findAll() {
     return this.productsService.findAll();
   }
 
   @Get(':id')
+  @AllowUnauthenticatedRequest()
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(id);
   }

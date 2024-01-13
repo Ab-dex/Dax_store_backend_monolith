@@ -54,7 +54,6 @@ export abstract class GenericDocumentRepository<
     filterQuery: FilterQuery<T>,
     projection?: Record<string, unknown>,
   ): Promise<Result<TEntity>> {
-    console.log("I was called")
     return this.findOne(filterQuery, projection);
   }
 

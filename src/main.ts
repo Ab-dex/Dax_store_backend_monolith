@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { errorValidationBodyDto } from '../libs/common/src/dtos/errorBody.dto';
@@ -7,6 +7,7 @@ import { HttpExceptionFilter } from '@app/common/utils/filters/httpExceptions.fi
 import { ValidationExceptionFilter } from '@app/common/utils/filters/validationExceptions.filter';
 import { LoggerFactory } from '@app/common/config/logger_config/logger.config';
 import { useContainer } from 'class-validator';
+import { AuthGuard } from '@app/common/utils/guards/Auth.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -22,6 +23,8 @@ async function bootstrap() {
   });
 
   configureSwagger(app);
+
+  app.useGlobalGuards(new AuthGuard(app.get(Reflector)));
 
   // this allows global use of validation from class-validator.
   // whitelist removes extradata not needed in the request body before controllers perform actions on them

@@ -1,24 +1,33 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { AuthsService } from './auths.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
-import { ApiProperty, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiOperation,
+  ApiProperty,
+  ApiTags,
+} from '@nestjs/swagger';
+import { RegisterUserDto } from './dto/create-auth.dto';
+import { AllowUnauthenticatedRequest } from '@app/common/utils/decorators/decorator';
 
 @ApiTags('Auths')
+// @AllowUnauthenticatedRequest()
 @Controller('auths')
 export class AuthsController {
   constructor(private readonly authsService: AuthsService) {}
 
   @Post('register')
-  register(@Body() createAuthDto: any) {
+  @ApiOperation({
+    description: 'Create a new user',
+    summary: 'Sign Up',
+  })
+  @ApiCreatedResponse({
+    description: 'User successfully created',
+  })
+  @ApiBadRequestResponse({
+    description: 'Bad Request',
+  })
+  register(@Body() createAuthDto: RegisterUserDto) {
     return this.authsService.create(createAuthDto);
   }
 

@@ -21,7 +21,10 @@ class EnvironmentVariables {
   MONGODB_USERNAME: string;
 
   @IsDefined()
-  MONGODB_PASSWORD: any;
+  MONGODB_PASSWORD: string;
+
+  @IsDefined()
+  APP_JWT_SECRET: string;
 }
 
 export const validateConfig = (configuration: Record<string, unknown>) => {

@@ -8,6 +8,8 @@ import { ConfigsModule } from '@app/common/config/core_config/configs.module';
 import { DatabaseModule } from '@app/common/database';
 import { ProductsModule } from './products/products.module';
 import { AuthsModule } from './auths/auths.module';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from '@app/common/utils/guards/Role.guard';
 
 @Module({
   imports: [

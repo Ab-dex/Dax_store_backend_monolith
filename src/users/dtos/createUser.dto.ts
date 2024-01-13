@@ -13,7 +13,6 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsEmail()
   @Transform((email) => email.value.toLowerCase())
-  @ApiProperty({ required: true })
   @IsUserAlreadyExist({
     message: 'User $value already exists. Choose another name.',
   })
@@ -22,7 +21,6 @@ export class CreateUserDto {
   @IsDefined()
   @IsNotEmpty()
   @IsString()
-  @ApiProperty({ required: true })
   @Transform(
     (firstname) =>
       firstname.value.trim().charAt(0).toUpperCase() +
@@ -38,12 +36,10 @@ export class CreateUserDto {
       lastname.value.trim().charAt(0).toUpperCase() +
       lastname.value.trim().slice(1),
   )
-  @ApiProperty({ required: true })
   lastname: string;
 
   @IsDefined()
   @IsNotEmpty()
   @IsStrongPassword()
-  @ApiProperty({ required: true })
   password: string;
 }

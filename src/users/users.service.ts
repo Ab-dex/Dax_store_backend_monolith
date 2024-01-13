@@ -144,9 +144,8 @@ export class UsersService {
     }
   }
 
-  async verifyUser(email: string) {
+  async validateUser(email: string) {
     try {
-      console.log(this.userRepository)
       const user = await this.userRepository.findByValues({ email });
 
       // const isPasswordMatch = await bcrypt.compare(password, user.password);

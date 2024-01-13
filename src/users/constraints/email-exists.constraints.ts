@@ -6,19 +6,16 @@ import {
   ValidatorConstraintInterface,
   ValidationArguments,
 } from 'class-validator';
-import { UserRepository } from '../repository/user.repository';
-import { TYPE } from 'src/Constants';
+import { UsersService } from '../users.service';
 
 @ValidatorConstraint({ async: true })
 @Injectable()
 export class IsUserAlreadyExistConstraint
   implements ValidatorConstraintInterface
 {
-  constructor(
-    private readonly userRepository: UserRepository,
-  ) {}
+  constructor(private readonly userService: UsersService) {}
   async validate(email: any, args: ValidationArguments) {
-    const userResponse = await this.userRepository.findByValues({ email });
+    const userResponse = await this.userService.validateUser(email);
 
     if (userResponse.isSuccess) {
       return false;
