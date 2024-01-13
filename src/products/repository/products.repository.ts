@@ -7,8 +7,9 @@ import { ProductDocument } from '../model/product.model';
 import { Model } from 'mongoose';
 import { IProductMapper } from 'src/mappers/product-mapper.interface';
 import { TYPE } from 'src/Constants';
-import { Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 
+@Injectable()
 export class ProductsRepository
   extends GenericDocumentRepository<IProductEntity, IProductModel>
   implements IProductRepository

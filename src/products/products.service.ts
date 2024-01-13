@@ -75,7 +75,7 @@ export class ProductsService {
   }
 
   async remove(id: string) {
-    const res = (await this.productsRepository.deleteOne({ id }))
+    const res = await this.productsRepository.deleteOne({ id });
     return Result.ok(res);
   }
 }

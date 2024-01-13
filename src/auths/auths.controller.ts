@@ -10,7 +10,7 @@ import {
 import { AuthsService } from './auths.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiProperty, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Auths')
 @Controller('auths')
@@ -22,8 +22,12 @@ export class AuthsController {
     return this.authsService.create(createAuthDto);
   }
 
+  @ApiProperty({
+    name: 'Sign in',
+    description: 'Login User',
+  })
   @Post('login')
   login(@Body() createAuthDto: any) {
-    return this.authsService.create(createAuthDto);
+    return this.authsService.signIn('David', 'Chris');
   }
 }

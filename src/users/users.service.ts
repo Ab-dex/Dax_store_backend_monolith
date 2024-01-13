@@ -21,7 +21,6 @@ import { TYPE } from 'src/Constants';
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject(TYPE.IUserRepository)
     private readonly userRepository: UserRepository,
     protected readonly userMapper: UserMapper,
   ) {}
@@ -145,14 +144,18 @@ export class UsersService {
     }
   }
 
-  async verifyUser(email: string, password: string) {
+  async verifyUser(email: string) {
     try {
+      console.log(this.userRepository)
       const user = await this.userRepository.findByValues({ email });
 
       // const isPasswordMatch = await bcrypt.compare(password, user.password);
       // if (!isPasswordMatch) {
       //   throw new UnauthorizedException('Invalid credentials');
       // }
+      if (!user) {
+        throw new NotFoundException();
+      }
       return user;
     } catch (err) {
       if (err instanceof NotFoundException) {

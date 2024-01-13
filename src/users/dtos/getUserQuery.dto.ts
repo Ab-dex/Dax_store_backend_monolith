@@ -6,30 +6,30 @@ export class GetUsersQueryDTO {
   @Type(() => Number)
   @IsNumber()
   @Expose()
-  limit: number;
+  limit?: number;
 
   @IsOptional()
   @Type(() => Number)
   @IsNumber()
   @Expose()
-  currentPage: number;
+  currentPage?: number;
 
   @IsOptional()
   @Type(() => String)
   @IsString()
   @Expose()
-  firstname: string;
+  firstname?: string;
 
   @IsOptional()
   @Type(() => String)
   @IsString()
   @Expose()
-  lastname: string;
+  lastname?: string;
 
   @IsOptional()
   @Type(() => String)
   @Transform((email) => email?.value?.trim().toLowerCase())
   @IsEmail()
   @Expose()
-  email: string;
+  email?: string;
 }

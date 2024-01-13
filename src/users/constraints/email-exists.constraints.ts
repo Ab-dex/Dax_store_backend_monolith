@@ -15,7 +15,6 @@ export class IsUserAlreadyExistConstraint
   implements ValidatorConstraintInterface
 {
   constructor(
-    @Inject(TYPE.IUserRepository)
     private readonly userRepository: UserRepository,
   ) {}
   async validate(email: any, args: ValidationArguments) {
