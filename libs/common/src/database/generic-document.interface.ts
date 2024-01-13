@@ -22,7 +22,7 @@ export interface IGenericDocument<TEntity, T extends BaseDocumentSchema> {
 
   findAll(
     filterQuery?: FilterQuery<T>,
-    projection?: ProjectionType<T | null>,
+    projection?: Record<string, unknown>,
     options?: QueryOptions<T>,
   ): Promise<Result<TEntity[] | null>>;
 

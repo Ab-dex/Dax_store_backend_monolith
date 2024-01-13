@@ -46,11 +46,15 @@ export abstract class BaseRepository<TEntity, T extends BaseDocumentSchema> {
 
   async find(
     filterQuery?: FilterQuery<T>,
-    projection?: ProjectionType<T | null>,
+    projection?: Record<string, unknown>,
     options?: QueryOptions<T>,
   ): Promise<Result<TEntity[] | null>> {
     try {
-      const documents = await this.model.find(filterQuery, projection, options);
+      const documents = await this.model.find(
+        filterQuery,
+        { __v: 0, ...projection },
+        options,
+      );
 
       const entities: TEntity[] = documents?.length
         ? documents.map((document) =>
@@ -74,7 +78,7 @@ export abstract class BaseRepository<TEntity, T extends BaseDocumentSchema> {
 
   async findOne(
     filterQuery: any,
-    projection?: ProjectionType<T | null>,
+    projection?: Record<string, unknown>,
   ): Promise<Result<TEntity | null>> {
     const document = await this.model.findOne(filterQuery, projection);
 

@@ -40,7 +40,7 @@ export abstract class GenericDocumentRepository<
 
   async findAll(
     filterQuery?: FilterQuery<T>,
-    projection?: ProjectionType<T | null>,
+    projection?: Record<string, unknown>,
     options?: QueryOptions<T>,
   ): Promise<Result<TEntity[]>> {
     return this.find(filterQuery, projection, options);
@@ -52,14 +52,14 @@ export abstract class GenericDocumentRepository<
 
   async findByValues(
     filterQuery: FilterQuery<T>,
-    projection?: ProjectionType<T | null>,
+    projection?: Record<string, unknown>,
   ): Promise<Result<TEntity>> {
     return this.findOne(filterQuery, projection);
   }
 
   async findById(
     id: string,
-    projection?: ProjectionType<T> | null,
+    projection?: Record<string, unknown>,
   ): Promise<Result<TEntity | null>> {
     return this.findOneById(id);
   }
