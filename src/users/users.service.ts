@@ -31,8 +31,17 @@ export class UsersService {
    * @returns returns response dto
    */
   async createUser(props: CreateUserDto): Promise<Result<UserDTO>> {
+    // Email exist has already been handled at the validation constraint level for createDTO. Please do not remove that constraint there without implementing such validation check here.
+
+    // password match has also been handled at the validation constraint level much like email.
+
+    // hash the password before creating an entity
+
     // create an enitity from createUserDto
-    const user = UserEntity.create({ ...props } as UserDTO).getValue();
+    const user = UserEntity.create({ ...props } as Omit<
+      UserDTO,
+      'id'
+    >).getValue();
 
     // map the created entity to model
     const userDoc = this.userMapper.toModelData(user);

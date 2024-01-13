@@ -8,6 +8,7 @@ import {
 import { Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsUserAlreadyExist } from '../../users/constraints/email-exists.constraints';
+import { IsEqualTo } from '../../users/constraints/password-match.constraints';
 
 export class RegisterUserDto {
   @IsDefined()
@@ -17,7 +18,7 @@ export class RegisterUserDto {
   @ApiProperty({ required: true })
   @IsUserAlreadyExist({
     message:
-      'User $value already exists. Sign up with another email or login to this email.',
+      'User $value already exists. Please proceed to login, or forgot password to reset your password.',
   })
   email: string;
 
@@ -48,4 +49,11 @@ export class RegisterUserDto {
   @IsStrongPassword()
   @ApiProperty({ required: true })
   password: string;
+
+  @IsDefined()
+  @IsNotEmpty()
+  @IsStrongPassword()
+  @IsEqualTo('password')
+  @ApiProperty({ required: true })
+  confirmPassword: string;
 }

@@ -36,7 +36,7 @@ export class AuthsController {
     description: 'Login User',
   })
   @Post('login')
-  login(@Body() createAuthDto: any) {
+  login(@Body() loginAuthDto: Pick<RegisterUserDto, 'email' | 'password'>) {
     return this.authsService.signIn('David', 'Chris');
   }
 }

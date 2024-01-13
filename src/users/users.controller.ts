@@ -13,7 +13,6 @@ import { CreateUserDto } from './dtos/createUser.dto';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
-  ApiExcludeEndpoint,
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -24,9 +23,8 @@ import {
 } from '@nestjs/swagger';
 import { UserDTO } from './dtos/user.dto';
 import { GetUsersQueryDTO } from './dtos/getUserQuery.dto';
-import { Roles } from '@app/common/utils/decorators/decorator';
-import { AuthGuard } from '@app/common/utils/guards/Auth.guard';
 import { RolesGuard } from '@app/common/utils/guards/Role.guard';
+import { Role, Roles } from '@app/common/utils/decorators/roles.decorator';
 
 @ApiTags('Users')
 @Controller('users')
@@ -112,8 +110,8 @@ export class UsersController {
   })
   // @ApiExcludeEndpoint()
   @Post()
-  @Roles('admin', 'user')
-  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Owner)
+  @UseGuards(RolesGuard)
   createUser(@Body() createUserDto: CreateUserDto) {
     try {
       return this.usersService.createUser(createUserDto);

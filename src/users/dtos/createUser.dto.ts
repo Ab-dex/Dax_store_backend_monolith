@@ -8,13 +8,15 @@ import {
 } from 'class-validator';
 import { IsUserAlreadyExist } from '../constraints/email-exists.constraints';
 import { Transform } from 'class-transformer';
+import { IsEqualTo } from '../constraints/password-match.constraints';
 export class CreateUserDto {
   @IsDefined()
   @IsNotEmpty()
   @IsEmail()
   @Transform((email) => email.value.toLowerCase())
   @IsUserAlreadyExist({
-    message: 'User $value already exists. Choose another name.',
+    message:
+      'Email $value already exists. Proceed to forgot password to reset password if you lost you password.',
   })
   email: string;
 
@@ -42,4 +44,9 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsStrongPassword()
   password: string;
+
+  @IsDefined()
+  @IsNotEmpty()
+  @IsEqualTo('password')
+  confirmPassword: string;
 }

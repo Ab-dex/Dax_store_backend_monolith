@@ -16,7 +16,12 @@ export class UserEntity extends Entity<IUserModel> implements IUserEntity {
   private _lastname: string;
 
   constructor(
-    { email, password, firstname, lastname }: UserModels | UserDTO,
+    {
+      email,
+      password,
+      firstname,
+      lastname,
+    }: Omit<UserModels, 'id'> | Omit<UserDTO, 'id'>,
     _id: Types.ObjectId,
   ) {
     super(_id);
@@ -67,7 +72,7 @@ export class UserEntity extends Entity<IUserModel> implements IUserEntity {
    */
 
   static create(
-    props: UserDTO | UserModels,
+    props: Omit<UserDTO, 'id'> | UserModels,
     id?: Types.ObjectId,
   ): Result<UserEntity> {
     return Result.ok(new UserEntity(props, id));
