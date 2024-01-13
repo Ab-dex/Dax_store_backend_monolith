@@ -62,13 +62,7 @@ export class UsersController {
     required: false,
   })
   getUsers(
-    @Query(
-      new ValidationPipe({
-        transform: true,
-        transformOptions: { enableImplicitConversion: true },
-        forbidNonWhitelisted: true,
-      }),
-    )
+    @Query()
     query: GetUsersQueryDTO,
   ) {
     return this.usersService.getUsers(query);
