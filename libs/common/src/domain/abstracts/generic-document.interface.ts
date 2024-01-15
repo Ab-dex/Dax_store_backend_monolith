@@ -37,7 +37,7 @@ export interface IGenericDocument<TEntity, T extends BaseDocumentSchema> {
 
   deleteMany(filterQuery: FilterQuery<T>): Promise<boolean>;
 
-  startSession(): Promise<ClientSession>;
+  // startSession(): Promise<ClientSession>;
 
   insertMany(docs: any): Promise<Result<TEntity[]>>;
 

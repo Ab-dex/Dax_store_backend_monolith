@@ -28,8 +28,7 @@ export abstract class GenericDocumentRepository<
 {
   constructor(
     protected readonly model: Model<T>,
-    protected readonly mapper: IMapper<TEntity, T>,
-    private readonly connection?: Connection,
+    protected readonly mapper: IMapper<TEntity, T>, // private readonly connection?: Connection,
   ) {
     super(model, mapper);
   }
@@ -92,9 +91,9 @@ export abstract class GenericDocumentRepository<
     return (await result).deletedCount >= 1;
   }
 
-  async startSession(): Promise<ClientSession> {
-    return await this.connection?.startSession();
-  }
+  // async startSession(): Promise<ClientSession> {
+  //   return await this.connection?.startSession();
+  // }
 
   async insertMany(docs: any): Promise<Result<TEntity[]>> {
     const documents = await this.model.insertMany(docs);
