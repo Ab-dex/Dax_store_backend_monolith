@@ -7,8 +7,8 @@ import {
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsUserAlreadyExist } from '../../../users/constraints/email-exists.constraints';
-import { IsEqualTo } from '../../../users/constraints/password-match.constraints';
+import { IsUserAlreadyExist } from '../../constraints/email-exists.constraints';
+import { IsEqualTo } from '../../constraints/password-match.constraints';
 
 export class RegisterUserDto {
   @IsDefined()
@@ -16,10 +16,10 @@ export class RegisterUserDto {
   @IsEmail()
   @Transform((email) => email.value.toLowerCase())
   @ApiProperty({ required: true })
-  // @IsUserAlreadyExist({
-  //   message:
-  //     'User $value already exists. Please proceed to login, or forgot password to reset your password.',
-  // })
+  @IsUserAlreadyExist({
+    message:
+      'User $value already exists. Please proceed to login, or forgot password to reset your password.',
+  })
   email: string;
 
   @IsDefined()

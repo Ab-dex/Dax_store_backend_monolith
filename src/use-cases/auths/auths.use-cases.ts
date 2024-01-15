@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import { UsersUseCases } from '../users/users.use-cases';
 import { RegisterUserDto } from '../../domain/dtos/auths/create-auth.dto';
-import { ObjectId, Promise } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { Result } from '@app/common/domain/result';

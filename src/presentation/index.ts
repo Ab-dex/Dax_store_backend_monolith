@@ -1,1 +1,1 @@
-export * from '../users/constraints';
+export * from '../domain/constraints';

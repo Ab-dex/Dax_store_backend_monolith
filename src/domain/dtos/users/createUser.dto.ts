@@ -6,9 +6,9 @@ import {
   IsString,
   IsDefined,
 } from 'class-validator';
-import { IsUserAlreadyExist } from '../../../users/constraints/email-exists.constraints';
+import { IsUserAlreadyExist } from '../../constraints/email-exists.constraints';
 import { Transform } from 'class-transformer';
-import { IsEqualTo } from '../../../users/constraints/password-match.constraints';
+import { IsEqualTo } from '../../constraints/password-match.constraints';
 export class CreateUserDto {
   @IsDefined()
   @IsNotEmpty()

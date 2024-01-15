@@ -18,16 +18,9 @@ import {
 import { UsersUsesCasesModule } from './use-cases/users/users-uses-cases.module';
 import { AuthsUseCasesModule } from './use-cases/auths/auths-use-cases.module';
 import { ProductsUseCasesModule } from './use-cases/products/products-use-cases.module';
+import { IsUserAlreadyExistConstraint } from "./domain/constraints";
 
 @Module({
-  // imports: [
-  //   ConfigsModule,
-  //   WinstonModule.forRoot({}),
-  //   AuthsModule,
-  //   UsersModule,
-  //   DatabaseModule,
-  //   ProductsModule,
-  // ],
   imports: [
     ConfigsModule,
     WinstonModule.forRoot({}),
@@ -43,6 +36,6 @@ import { ProductsUseCasesModule } from './use-cases/products/products-use-cases.
     UsersController,
     ProductsController,
   ],
-  providers: [AppUseCase],
+  providers: [AppUseCase, IsUserAlreadyExistConstraint],
 })
 export class AppModule {}

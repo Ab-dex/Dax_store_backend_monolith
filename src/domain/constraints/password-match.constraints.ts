@@ -3,7 +3,6 @@ import {
   ValidationArguments,
   ValidationOptions,
 } from 'class-validator';
-
 export function IsEqualTo(
   property: string,
   validationOptions?: ValidationOptions,

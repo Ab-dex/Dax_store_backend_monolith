@@ -11,22 +11,22 @@ import { UserMapper } from '../domain/mappers/User.mapper';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from '../infrastructure/data-services/mongo/model/user-model/user.model';
 import { ConfigModule } from '@nestjs/config';
-import { IsUserAlreadyExistConstraint } from './constraints/email-exists.constraints';
+import { IsUserAlreadyExistConstraint } from '../domain/constraints/email-exists.constraints';
 import { CheckGetRequestBodyMiddleware } from '@app/common/presentation/middlewares/checkGetRequestBody.middleware';
-import { UsersUsesCasesModule } from "../use-cases/users/users-uses-cases.module";
+import { UsersUsesCasesModule } from '../use-cases/users/users-uses-cases.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'Users', schema: UserSchema }]),
     ConfigModule,
-    UsersUsesCasesModule
+    UsersUsesCasesModule,
   ],
   controllers: [UsersController],
   providers: [
     UsersUseCases,
     UserRepository,
     UserMapper,
-    IsUserAlreadyExistConstraint,
+    // IsUserAlreadyExistConstraint,
   ],
   exports: [UsersUseCases],
 })
