@@ -9,7 +9,7 @@ import { UsersController } from '../controllers/users/users.controller';
 import { UserRepository } from './repository/user.repository';
 import { UserMapper } from '../domain/mappers/User.mapper';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserSchema } from './model/user.model';
+import { UserSchema } from '../infrastructure/data-services/mongo/model/user-model/user.model';
 import { ConfigModule } from '@nestjs/config';
 import { IsUserAlreadyExistConstraint } from './constraints/email-exists.constraints';
 import { CheckGetRequestBodyMiddleware } from '@app/common/utils/middlewares/checkGetRequestBody.middleware';

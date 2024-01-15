@@ -3,7 +3,7 @@ import { Types } from 'mongoose';
 import { ProductDTO } from '../../dtos/products/product.dto';
 import { Result } from '@app/common/domain/result';
 import { IProductEntity } from './product-entity.interface';
-import { ProductModel } from '../../../products/model/product.model';
+import { ProductModel } from '../../../infrastructure/data-services/mongo/model/product-model/product.model';
 
 export class ProductEntity
   extends Entity<IProductEntity>
@@ -17,21 +17,19 @@ export class ProductEntity
   private _images: string[];
   private _sizes: number[];
 
-  constructor(
-    {
-      name: productName,
-      description,
-      brandImage,
-      price,
-      quantity,
-      images,
-      sizes,
-    }: Partial<ProductModel> | ProductDTO,
-    _id: Types.ObjectId,
-  ) {
-    super(_id);
+  constructor({
+    id,
+    name: productName,
+    description,
+    brandImage,
+    price,
+    quantity,
+    images,
+    sizes,
+  }: Partial<ProductDTO> | ProductModel) {
+    super(new Types.ObjectId(id));
     this._name = productName;
-    this.sizes = sizes;
+    this._sizes = sizes;
     this._description = description;
     this._brandImage = brandImage;
     this._images = images;
@@ -111,15 +109,14 @@ export class ProductEntity
 
   /**
    *
-   * @param props : Partial<ProductDTO> in user model if parsing from model to entity or user dto if parsing from dto to entity.
+   * @param props : Partial<ProductDTO> in user product-user-model if parsing from product-user-model to entity or user dto if parsing from dto to entity.
    * @param id: Types.ObjectId
    * @returns : Result<IProductEntity> custom result of an instance of entity class. Use the getValue() method in the Result context to get every field within the class
    */
 
   static create(
     props: Partial<ProductDTO> | ProductModel,
-    id?: Types.ObjectId,
   ): Result<IProductEntity> {
-    return Result.ok(new ProductEntity(props, id).toString());
+    return Result.ok(new ProductEntity(props).toString());
   }
 }

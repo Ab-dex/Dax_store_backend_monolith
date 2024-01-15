@@ -3,7 +3,7 @@ import { Types } from 'mongoose';
 import { IUserEntity } from './user-entity.interface';
 import { Result } from '@app/common/domain/result';
 import { UserDTO } from '../../dtos/users/user.dto';
-import { UserModels } from '../../../users/model/user.model';
+import { UserModels } from '../../../infrastructure/data-services/mongo/model/user-model/user.model';
 
 /**
  * @description: entity is the instance of m domain object at every point.
@@ -73,7 +73,7 @@ export class UserEntity extends Entity<IUserEntity> implements IUserEntity {
 
   /**
    *
-   * @param props : takes in user model
+   * @param props : takes in user product-user-model
    * @param id: optional
    * @returns : an custom result of an instance of entity class. Use the getValue() method in the Result context to get every field within the class
    */

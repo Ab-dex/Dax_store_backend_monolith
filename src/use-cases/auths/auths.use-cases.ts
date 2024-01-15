@@ -8,11 +8,12 @@ export class AuthsUseCases {
     @Inject(forwardRef(() => UsersUseCases)) private userService: UsersUseCases,
   ) {}
   create(createAuthDto: RegisterUserDto) {
-    return this.userService.createUser(createAuthDto);
+    // return this.userService.createUser(createAuthDto);
+    return null;
   }
 
   async signIn(email: string, password: string) {
-    const user = await this.userService.validateUser(email);
-    return user;
+    // const user = await this.userService.validateUser(email);
+    return {};
   }
 }

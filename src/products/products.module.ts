@@ -5,7 +5,7 @@ import { TYPE } from 'src/Constants';
 import { ProductsRepository } from './repository/products.repository';
 import { ProductMapper } from '../domain/mappers/Product.mapper';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ProductSchema } from './model/product.model';
+import { ProductSchema } from '../infrastructure/data-services/mongo/model/product-model/product.model';
 
 @Module({
   imports: [

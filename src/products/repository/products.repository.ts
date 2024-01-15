@@ -1,9 +1,9 @@
 import { GenericDocumentRepository } from '@app/common/domain/abstracts/generic-document.repository';
 import { IProductRepository } from './product-repo.interface';
 import { IProductEntity } from '../../domain/entities/products/product-entity.interface';
-import { IProductModel } from '../model/product-model.interface';
+import { IProductModel } from '../../infrastructure/data-services/mongo/model/product-model/product-model.interface';
 import { InjectModel } from '@nestjs/mongoose';
-import { ProductDocument } from '../model/product.model';
+import { ProductDocument } from '../../infrastructure/data-services/mongo/model/product-model/product.model';
 import { Model } from 'mongoose';
 import { IProductMapper } from '../../domain/mappers/product-mapper.interface';
 import { TYPE } from 'src/Constants';

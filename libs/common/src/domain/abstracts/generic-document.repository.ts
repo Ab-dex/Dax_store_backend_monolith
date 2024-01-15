@@ -42,6 +42,7 @@ export abstract class GenericDocumentRepository<
     projection?: Record<string, unknown>,
     options?: QueryOptions<T>,
   ): Promise<Result<TEntity[]>> {
+    console.log('I was called')
     return this.find(filterQuery, projection, options);
   }
 

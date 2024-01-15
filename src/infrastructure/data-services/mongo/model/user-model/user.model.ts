@@ -5,7 +5,7 @@ import { Document } from 'mongoose';
 export type UserDocument = UserModels & Document;
 
 /*
- * @description: Base model for user from which a schema is generated for mongodb collection
+ * @description: Base product-user-model for user from which a schema is generated for mongodb collection
  */
 @Schema({ toJSON: { virtuals: true }, toObject: { virtuals: true } })
 export class UserModels extends BaseDocumentSchema {

@@ -15,11 +15,11 @@ export class IsUserAlreadyExistConstraint
 {
   constructor(private readonly userService: UsersUseCases) {}
   async validate(email: any, args: ValidationArguments) {
-    const userResponse = await this.userService.validateUser(email);
+    // const userResponse = await this.userService.validateUser(email);
 
-    if (userResponse.isSuccess) {
-      return false;
-    }
+    // if (userResponse.isSuccess) {
+    //   return false;
+    // }
     return true;
   }
 }

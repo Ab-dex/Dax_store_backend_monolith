@@ -1,6 +1,6 @@
 import { IMapper } from '@app/common/domain/mapper';
 import { UserEntity } from '../entities/users/user.entity';
-import { UserDocument } from '../../users/model/user.model';
+import { UserDocument } from '../../infrastructure/data-services/mongo/model/user-model/user.model';
 import { Injectable } from '@nestjs/common';
 import { IUserEntity } from '../entities';
 
@@ -21,8 +21,8 @@ export class UserMapper implements IMapper<IUserEntity, UserDocument> {
 
   /**
    *
-   * @param model : takes in the model data of type UserDocument
-   * extract _id from the model and pass it separately to the toDomain method to create an entity
+   * @param model : takes in the product-user-model data of type UserDocument
+   * extract _id from the product-user-model and pass it separately to the toDomain method to create an entity
    * @returns instance of an entity
    */
   toDomain(model: UserDocument): IUserEntity {

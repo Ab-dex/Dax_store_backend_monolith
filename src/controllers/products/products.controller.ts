@@ -35,13 +35,13 @@ export class ProductsController {
    * @returns returns list of seeded users
    */
 
-  @Post('seed')
-  // @ApiExcludeEndpoint()
-  @ApiCreatedResponse({ description: 'List of products created' })
-  @ApiInternalServerErrorResponse({ description: 'Something went wrong' })
-  seedProductsDb() {
-    return this.productsService.seedDb();
-  }
+  // @Post('seed')
+  // // @ApiExcludeEndpoint()
+  // @ApiCreatedResponse({ description: 'List of products created' })
+  // @ApiInternalServerErrorResponse({ description: 'Something went wrong' })
+  // seedProductsDb() {
+  //   return this.productsService.seedDb();
+  // }
 
   @Get()
   @ApiOkResponse({
@@ -54,19 +54,19 @@ export class ProductsController {
     return this.productsService.findAll();
   }
 
-  @Get(':id')
-  @AllowUnauthenticatedRequest()
-  findOne(@Param('id') id: string) {
-    return this.productsService.findOne(id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(id, updateProductDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productsService.remove(id);
-  }
+  // @Get(':id')
+  // @AllowUnauthenticatedRequest()
+  // findOne(@Param('id') id: string) {
+  //   return this.productsService.findOne(id);
+  // }
+  //
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+  //   return this.productsService.update(id, updateProductDto);
+  // }
+  //
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.productsService.remove(id);
+  // }
 }

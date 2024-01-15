@@ -22,10 +22,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     if (!payload) {
       throw new UnauthorizedException();
     }
-    const isValidUser = await this.usersService.validateUser(payload.email);
-    if (!isValidUser) {
-      throw new UnauthorizedException();
-    }
+    // const isValidUser = await this.usersService.validateUser(payload.email);
+    // if (!isValidUser) {
+    //   throw new UnauthorizedException();
+    // }
     return true;
   }
 }

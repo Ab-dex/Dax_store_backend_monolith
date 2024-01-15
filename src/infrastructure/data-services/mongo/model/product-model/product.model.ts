@@ -6,9 +6,9 @@ import { IProductModel } from './product-model.interface';
 export type ProductDocument = ProductModel & Document;
 
 /*
- * @description: Base model for user from which a schema is generated for mongodb collection
+ * @description: Base product-user-model for user from which a schema is generated for mongodb collection
  */
-@Schema()
+@Schema({ toJSON: { virtuals: true }, toObject: { virtuals: true } })
 export class ProductModel extends BaseDocumentSchema implements IProductModel {
   @Prop({ type: String, required: true })
   name: string;
