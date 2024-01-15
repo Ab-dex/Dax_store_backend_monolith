@@ -6,9 +6,16 @@ export class Result<T> {
   private error?: any;
   message: string;
   errorCode: HttpStatus;
-  constructor(isSuccess: boolean, data?: any, message?: string, errorCode?: HttpStatus) {
+  constructor(
+    isSuccess: boolean,
+    data?: any,
+    message?: string,
+    errorCode?: HttpStatus,
+  ) {
     this.data = isSuccess ? data : undefined;
-    this.error = !isSuccess ? {statusCode: errorCode, details: message} : undefined
+    this.error = !isSuccess
+      ? { statusCode: errorCode, details: message }
+      : undefined;
     this.isSuccess = isSuccess;
     this.message = isSuccess ? message : undefined;
   }

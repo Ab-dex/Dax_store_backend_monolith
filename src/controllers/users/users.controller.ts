@@ -24,8 +24,8 @@ import {
 } from '@nestjs/swagger';
 import { UserDTO } from '../../domain/dtos/users/user.dto';
 import { GetUsersQueryDTO } from '../../domain/dtos/users/getUserQuery.dto';
-import { RolesGuard } from '@app/common/utils/guards/Role.guard';
-import { Role, Roles } from '@app/common/utils/decorators/roles.decorator';
+import { RolesGuard } from '@app/common/presentation/guards/Role.guard';
+import { Role, Roles } from '@app/common/presentation/decorators/roles.decorator';
 
 @ApiTags('Users')
 @Controller('users')

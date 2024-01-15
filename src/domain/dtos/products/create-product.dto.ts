@@ -10,7 +10,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { NonnegativeInteger } from "@app/common/utils/NonNegativeInteger.type";
+import { NonnegativeInteger } from '@app/common/presentation/NonNegativeInteger.type';
 
 export class CreateProductDto {
   @IsDefined()

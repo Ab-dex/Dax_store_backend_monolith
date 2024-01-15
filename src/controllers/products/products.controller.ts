@@ -18,7 +18,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { ProductDTO } from '../../domain/dtos/products/product.dto';
-import { AllowUnauthenticatedRequest } from '@app/common/utils/decorators/decorator';
+import { AllowUnauthenticatedRequest } from '@app/common/presentation/decorators/decorator';
 
 @ApiTags('Products')
 @Controller('products')

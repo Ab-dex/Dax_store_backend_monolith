@@ -8,7 +8,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { RegisterUserDto } from '../../domain/dtos/auths/create-auth.dto';
-import { AllowUnauthenticatedRequest } from '@app/common/utils/decorators/decorator';
+import { AllowUnauthenticatedRequest } from '@app/common/presentation/decorators/decorator';
 
 @ApiTags('Auths')
 // @AllowUnauthenticatedRequest()
@@ -27,6 +27,7 @@ export class AuthsController {
   @ApiBadRequestResponse({
     description: 'Bad Request',
   })
+  @AllowUnauthenticatedRequest()
   register(@Body() createAuthDto: RegisterUserDto) {
     return this.authsService.create(createAuthDto);
   }

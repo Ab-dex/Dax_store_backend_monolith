@@ -12,12 +12,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from '../infrastructure/data-services/mongo/model/user-model/user.model';
 import { ConfigModule } from '@nestjs/config';
 import { IsUserAlreadyExistConstraint } from './constraints/email-exists.constraints';
-import { CheckGetRequestBodyMiddleware } from '@app/common/utils/middlewares/checkGetRequestBody.middleware';
+import { CheckGetRequestBodyMiddleware } from '@app/common/presentation/middlewares/checkGetRequestBody.middleware';
+import { UsersUsesCasesModule } from "../use-cases/users/users-uses-cases.module";
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'Users', schema: UserSchema }]),
     ConfigModule,
+    UsersUsesCasesModule
   ],
   controllers: [UsersController],
   providers: [

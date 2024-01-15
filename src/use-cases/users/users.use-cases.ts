@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   HttpStatus,
   Inject,
   Injectable,
@@ -18,6 +19,8 @@ import { UserDocument } from '../../infrastructure/data-services/mongo/model/use
 import { GetUsersQueryDTO } from '../../domain/dtos/users/getUserQuery.dto';
 import { TYPE } from '../../Constants';
 import { IDataServices } from '../../domain/abstracts';
+import * as brcypt from 'bcrypt';
+import { hashPassword } from "../../utils/hash-password";
 
 @Injectable()
 export class UsersUseCases {
@@ -36,10 +39,16 @@ export class UsersUseCases {
 
     // password match has also been handled at the validation constraint level much like email.
 
-    // hash the password before creating an entity
+    if (props.password !== props.confirmPassword) {
+      throw new BadRequestException(
+        'password and confirm password must be he same',
+      );
+    }
 
+    // hash the password before creating an entity
+    const hashedPwd = await hashPassword(props.password);
     // create an enitity from createUserDto
-    const user = UserEntity.create({ ...props } as Omit<
+    const user = UserEntity.create({ ...props, password: hashedPwd } as Omit<
       UserDTO,
       'id'
     >).getValue();

@@ -1,4 +1,4 @@
-import { ValidationException } from '@app/common/utils/filters/validation.exception';
+import { ValidationException } from '@app/common/presentation/filters/validation.exception';
 import { ValidationError } from 'class-validator';
 
 export const errorValidationBodyDto = (errors: ValidationError[]) => {

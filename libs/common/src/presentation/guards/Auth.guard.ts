@@ -4,7 +4,7 @@ import { Reflector } from '@nestjs/core';
 import {
   AUTH_GUARD_CONFIG,
   IAuthGuardConfig,
-} from '@app/common/utils/guards/guards-config';
+} from '@app/common/presentation/guards/guards-config';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

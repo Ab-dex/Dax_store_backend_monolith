@@ -5,7 +5,7 @@ import { TYPE } from '../../Constants';
 import { Result } from '@app/common/domain/result';
 import { ProductDTO } from '../../domain/dtos/products/product.dto';
 import { ProductEntity } from '../../domain/entities/products/product.entity';
-import { initProducts } from '../../seeds/products';
+import { initProducts } from '../../infrastructure/seeds/products';
 import { IProductRepository } from '../../products/repository/product-repo.interface';
 import { IProductMapper } from '../../domain/mappers/product-mapper.interface';
 import { plainToInstance } from 'class-transformer';
