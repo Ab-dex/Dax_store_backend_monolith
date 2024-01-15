@@ -1,4 +1,4 @@
-import { BaseModelInterface } from '@app/common/database/base-document.interface';
+import { BaseModelInterface } from '@app/common/infrastructures/base-document.interface';
 
 export interface IProductModel extends BaseModelInterface {
   name: string;

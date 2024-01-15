@@ -1,11 +1,11 @@
-import { GenericDocumentRepository } from '@app/common/database/generic-document.repository';
+import { GenericDocumentRepository } from '@app/common/domain/abstracts/generic-document.repository';
 import { IProductRepository } from './product-repo.interface';
-import { IProductEntity } from '../entities/product-entity.interface';
+import { IProductEntity } from '../../domain/entities/products/product-entity.interface';
 import { IProductModel } from '../model/product-model.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { ProductDocument } from '../model/product.model';
 import { Model } from 'mongoose';
-import { IProductMapper } from 'src/mappers/product-mapper.interface';
+import { IProductMapper } from '../../domain/mappers/product-mapper.interface';
 import { TYPE } from 'src/Constants';
 import { Inject, Injectable } from '@nestjs/common';
 

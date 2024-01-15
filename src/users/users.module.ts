@@ -4,10 +4,10 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UsersController } from './users.controller';
+import { UsersUseCases } from '../use-cases/users/users.use-cases';
+import { UsersController } from '../controllers/users/users.controller';
 import { UserRepository } from './repository/user.repository';
-import { UserMapper } from '../mappers/User.mapper';
+import { UserMapper } from '../domain/mappers/User.mapper';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './model/user.model';
 import { ConfigModule } from '@nestjs/config';
@@ -21,12 +21,12 @@ import { CheckGetRequestBodyMiddleware } from '@app/common/utils/middlewares/che
   ],
   controllers: [UsersController],
   providers: [
-    UsersService,
+    UsersUseCases,
     UserRepository,
     UserMapper,
     IsUserAlreadyExistConstraint,
   ],
-  exports: [UsersService],
+  exports: [UsersUseCases],
 })
 export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

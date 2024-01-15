@@ -1,6 +1,5 @@
-import { BaseDocumentSchema } from '@app/common/database/base-document.schema';
+import { BaseDocumentSchema } from '@app/common/infrastructures/base-document.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { IUserModel } from './userModel.interface';
 import { Document } from 'mongoose';
 
 export type UserDocument = UserModels & Document;
@@ -8,7 +7,7 @@ export type UserDocument = UserModels & Document;
 /*
  * @description: Base model for user from which a schema is generated for mongodb collection
  */
-@Schema()
+@Schema({ toJSON: { virtuals: true }, toObject: { virtuals: true } })
 export class UserModels extends BaseDocumentSchema {
   @Prop({ type: String, required: true, unique: true })
   email: string;

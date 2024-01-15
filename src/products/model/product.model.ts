@@ -1,4 +1,4 @@
-import { BaseDocumentSchema } from '@app/common/database/base-document.schema';
+import { BaseDocumentSchema } from '@app/common/infrastructures/base-document.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { IProductModel } from './product-model.interface';

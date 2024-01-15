@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ProductsService } from './products.service';
-import { ProductsController } from './products.controller';
+import { ProductsUseCases } from '../use-cases/products/products.use-cases';
+import { ProductsController } from '../controllers/products/products.controller';
 import { TYPE } from 'src/Constants';
 import { ProductsRepository } from './repository/products.repository';
-import { ProductMapper } from 'src/mappers/Product.mapper';
+import { ProductMapper } from '../domain/mappers/Product.mapper';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProductSchema } from './model/product.model';
 
@@ -13,7 +13,7 @@ import { ProductSchema } from './model/product.model';
   ],
   controllers: [ProductsController],
   providers: [
-    ProductsService,
+    ProductsUseCases,
     {
       provide: TYPE.IProductsRepository,
       useClass: ProductsRepository,

@@ -1,11 +1,11 @@
 import { Model } from 'mongoose';
 import { UserDocument, UserModels } from '../model/user.model';
 import { IMapper } from '@app/common/domain/mapper';
-import { GenericDocumentRepository } from '@app/common/database/generic-document.repository';
-import { UserEntity } from '../entity/user.entity';
+import { GenericDocumentRepository } from '@app/common/domain/abstracts/generic-document.repository';
+import { UserEntity } from '../../domain/entities/users/user.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { UserMapper } from '../../mappers/User.mapper';
+import { UserMapper } from '../../domain/mappers/User.mapper';
 
 @Injectable()
 export class UserRepository extends GenericDocumentRepository<
