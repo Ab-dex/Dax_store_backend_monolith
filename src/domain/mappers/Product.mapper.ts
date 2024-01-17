@@ -7,7 +7,7 @@ import { Types } from 'mongoose';
 
 @Injectable()
 export class ProductMapper implements IProductMapper {
-  toModelData(entity: ProductEntity): ProductDocument {
+  toModelData(entity: IProductEntity): ProductDocument {
     const { description, name, brandImage, price, quantity, images } = entity;
     const newProductModel: ProductDocument = {
       description,

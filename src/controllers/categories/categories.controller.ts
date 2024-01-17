@@ -27,16 +27,16 @@ export class CategoriesController {
     isArray: true,
   })
   find() {
-    return this.categoryService.getCategpries();
+    return this.categoryService.getCategories();
   }
 
   @Get('/:id')
   findOne(@Param('id') id: string): CategoryDto | any {
-    return `retieved category ${id}`;
+    return this.categoryService.getOneCategory(id);
   }
   @Post()
   create(@Body() props: CreateCategoryDto) {
-    return props;
+    return this.categoryService.createCategory(props);
   }
 
   @Patch()

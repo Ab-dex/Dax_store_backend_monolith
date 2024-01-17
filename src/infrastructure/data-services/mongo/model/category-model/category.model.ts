@@ -8,18 +8,18 @@ export type CategoryDocument = CategoryModel & Document;
 /*
  * @description: Base product-user-model for user from which a schema is generated for mongodb collection
  */
-@Schema({ toJSON: { virtuals: true }, toObject: { virtuals: true } })
+@Schema()
 export class CategoryModel
   extends BaseDocumentSchema
   implements ICategoryModel
 {
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, unique: true, required: true })
   name: string;
 
   @Prop({ type: String, required: true })
   description: string;
 
-  @Prop({ type: String, required: false })
+  @Prop({ type: String, required: false, default: null })
   iconUrl: string;
 }
 

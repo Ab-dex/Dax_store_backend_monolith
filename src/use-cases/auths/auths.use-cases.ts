@@ -21,6 +21,7 @@ export class AuthsUseCases {
     private configureService: ConfigService,
   ) {}
   async create(createAuthDto: RegisterUserDto) {
+    console.log(createAuthDto);
     let user;
     try {
       user = (await this.userService.createUser(createAuthDto)).getValue();

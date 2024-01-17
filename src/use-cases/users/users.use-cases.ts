@@ -37,6 +37,7 @@ export class UsersUseCases {
 
     // password match has also been handled at the validation constraint level much like email.
 
+    console.log('from user', props)
     if (props.password !== props.confirmPassword) {
       throw new BadRequestException(
         'password and confirm password must be he same',

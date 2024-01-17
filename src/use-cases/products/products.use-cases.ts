@@ -7,6 +7,8 @@ import { plainToInstance } from 'class-transformer';
 import { IProductEntity } from '../../domain/entities/products/product-entity.interface';
 import { ProductMapper } from '../../domain/mappers/Product.mapper';
 import { IDataServices } from '../../domain/abstracts';
+import { ProductEntity } from '../../domain';
+import { initProducts } from '../../infrastructure/seeds/products';
 
 @Injectable()
 export class ProductsUseCases {
@@ -15,30 +17,41 @@ export class ProductsUseCases {
     private mapper: ProductMapper,
   ) {}
 
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  async create(createProductDto: CreateProductDto) {
+    const uniqueImagesList = [
+      ...new Set([
+        ...createProductDto.images.splice(0, 0, createProductDto.brandImage),
+      ]),
+    ];
+    const productEntity = ProductEntity.create({
+      ...createProductDto,
+      images: uniqueImagesList,
+    }).getValue();
+    const productDoc = this.mapper.toModelData(productEntity);
+    const createdProduct = await this.dataServices.products.create(productDoc);
+    return createdProduct;
   }
 
-  // async seedDb(): Promise<Result<ProductDTO[]>> {
-  //   const doc: IProductModel[] = initProducts.map((product) =>
-  //     this.mapper.toModelData(
-  //       ProductEntity.create({
-  //         ...product,
-  //         brandImage: product.images[0],
-  //       }).getValue(),
-  //     ),
-  //   );
-  //
-  //   const returnedSeeds: IProductEntity[] = (
-  //     await this.dataServices.products.insertMany(doc)
-  //   ).getValue();
-  //
-  //   const serializedProduct = returnedSeeds.map((seed: IProductEntity) =>
-  //     plainToInstance(ProductDTO, seed),
-  //   );
-  //   return Result.ok(serializedProduct);
-  // }
-  //
+  async seedDb(): Promise<Result<ProductDTO[]>> {
+    const doc = initProducts.map((product) =>
+      this.mapper.toModelData(
+        ProductEntity.create({
+          ...product,
+          brandImage: product.images[0],
+        }).getValue(),
+      ),
+    );
+
+    const returnedSeeds: IProductEntity[] = (
+      await this.dataServices.products.insertMany(doc)
+    ).getValue();
+
+    const serializedProduct = returnedSeeds.map((seed: IProductEntity) =>
+      plainToInstance(ProductDTO, seed),
+    );
+    return Result.ok(serializedProduct);
+  }
+
   // async updateSeed(props: any): Promise<Result<any>> {
   //   // this.dataServices.products.upsert()
   //   return Result.ok({});

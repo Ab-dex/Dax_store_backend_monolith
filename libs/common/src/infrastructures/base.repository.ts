@@ -12,6 +12,7 @@ import { Result } from '../domain/result';
 import { IMapper } from '../domain/mapper';
 import {
   HttpStatus,
+  InternalServerErrorException,
   NotAcceptableException,
   NotFoundException,
 } from '@nestjs/common';
@@ -31,17 +32,27 @@ export abstract class BaseRepository<TEntity, T extends BaseDocumentSchema> {
       _id: new Types.ObjectId(),
     });
 
-    const result = (await doc.save(options)).toJSON() as T;
-    if (!result) {
-      return Result.fail(
-        'An Error occured, unable to save document to db',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+    try {
+      const result = (await doc.save(options)) as T;
+      if (!result) {
+        return Result.fail(
+          'An Error occured, unable to save document to db',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
+
+      const entity = this.mapper.toDomain(result as T);
+      return Result.ok(entity);
+    } catch (error) {
+      if (error.code === 11000) {
+        return Result.fail(
+          'Unable to save category, Category already exists',
+          HttpStatus.CONFLICT,
+        );
+      } else {
+        throw new InternalServerErrorException();
+      }
     }
-
-    const entity = this.mapper.toDomain(result);
-
-    return Result.ok(entity);
   }
 
   async find(

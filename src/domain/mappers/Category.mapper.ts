@@ -3,6 +3,7 @@ import { IMapper } from '@app/common/domain/mapper';
 import { CategoryEntity, ICategoryEntity } from '../entities/categories';
 import { ICategoryModel } from '../../infrastructure/data-services/mongo/model/category-model/category-model.interface';
 import { CategoryDocument } from '../../infrastructure/data-services/mongo/model/category-model/category.model';
+import { CategoryDto } from "../dtos/categories/category.dto";
 
 @Injectable()
 export class CategoryMapper
