@@ -19,6 +19,7 @@ import { UsersUsesCasesModule } from './use-cases/users/users-uses-cases.module'
 import { AuthsUseCasesModule } from './use-cases/auths/auths-use-cases.module';
 import { ProductsUseCasesModule } from './use-cases/products/products-use-cases.module';
 import { IsUserAlreadyExistConstraint } from "./domain/constraints";
+import { CategoriesController } from "./controllers/categories/categories.controller";
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { IsUserAlreadyExistConstraint } from "./domain/constraints";
     AppController,
     AuthsController,
     UsersController,
+    CategoriesController,
     ProductsController,
   ],
   providers: [AppUseCase, IsUserAlreadyExistConstraint],

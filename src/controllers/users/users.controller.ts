@@ -39,31 +39,6 @@ export class UsersController {
     description: 'User credentials',
     isArray: true,
   })
-  @ApiQuery({
-    name: 'firstname',
-    type: String,
-    required: false,
-  })
-  @ApiQuery({
-    name: 'lastname',
-    type: String,
-    required: false,
-  })
-  @ApiQuery({
-    name: 'email',
-    type: String,
-    required: false,
-  })
-  @ApiQuery({
-    name: 'limit',
-    type: Number,
-    required: false,
-  })
-  @ApiQuery({
-    name: 'currentPage',
-    type: Number,
-    required: false,
-  })
   @AllowUnauthenticatedRequest()
   getUsers(
     @Query()

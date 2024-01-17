@@ -11,3 +11,9 @@ export const AllowUnauthenticatedRequest = () => {
     disabled: true,
   } as unknown as IAuthGuardConfig);
 };
+
+export const DisallowUnauthenticatedRequest = () => {
+  return SetMetadata(AUTH_GUARD_CONFIG, {
+    disabled: false,
+  } as unknown as IAuthGuardConfig);
+};

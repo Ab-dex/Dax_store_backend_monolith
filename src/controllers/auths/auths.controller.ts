@@ -9,6 +9,7 @@ import {
 } from '@nestjs/swagger';
 import { RegisterUserDto } from '../../domain/dtos/auths/create-auth.dto';
 import { AllowUnauthenticatedRequest } from '@app/common/presentation/decorators/decorator';
+import { LoginAuthDto } from '../../domain/dtos/auths/login-auth.dto';
 
 @ApiTags('Auths')
 @AllowUnauthenticatedRequest()
@@ -36,8 +37,7 @@ export class AuthsController {
     description: 'Login User',
   })
   @Post('login')
-
-  login(@Body() loginAuthDto: Pick<RegisterUserDto, 'email' | 'password'>) {
+  login(@Body() loginAuthDto: LoginAuthDto) {
     return this.authsService.signIn(loginAuthDto.email, loginAuthDto.password);
   }
 }

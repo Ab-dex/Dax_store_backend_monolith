@@ -30,7 +30,10 @@ export class UserMapper implements IMapper<IUserEntity, UserDocument> {
    * @returns instance of an entity
    */
   toDomain(model: UserDocument): IUserEntity {
-    const user: IUserEntity = UserEntity.create(model).getValue();
+    const user: IUserEntity = UserEntity.create({
+      ...model.toObject(),
+      id: model._id,
+    }).getValue();
     return user;
   }
 }

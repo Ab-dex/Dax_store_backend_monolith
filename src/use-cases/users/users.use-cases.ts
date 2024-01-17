@@ -18,6 +18,7 @@ import { UserDocument } from '../../infrastructure/data-services/mongo/model/use
 import { GetUsersQueryDTO } from '../../domain/dtos/users/getUserQuery.dto';
 import { IDataServices } from '../../domain/abstracts';
 import { hashPassword } from '../../utils/hash-password';
+import { Schema } from 'mongoose';
 
 @Injectable()
 export class UsersUseCases {
@@ -112,19 +113,18 @@ export class UsersUseCases {
       ...(limit && { skip: offset }),
     });
 
+
     const serializedUser = users.getValue().map((user) => {
-      const { email, id: userId, firstname, lastname } = user;
       return plainToInstance(
         UserDTO,
         {
-          id: userId.toHexString(),
-          email,
-          firstname,
-          lastname,
+          ...user,
+          ...{ isVerified: Boolean(user.isVerified) },
         },
         { excludeExtraneousValues: true },
       );
     });
+
     return Result.ok({
       users: [...serializedUser],
       pageCount,
@@ -133,6 +133,8 @@ export class UsersUseCases {
         page: currPage,
         isNext: Number(currPage) < Number(pageCount),
         isPrevious: Number(currPage) > 1,
+        nextPage: Number(currPage) < Number(pageCount) && currPage + 1,
+        previousPage: Number(currPage) > 1 && currPage - 1,
       },
     });
   }
@@ -140,17 +142,15 @@ export class UsersUseCases {
   async getOneUserById(id: string): Promise<Result<UserDTO>> {
     try {
       const user = await this.dataServices.users.findById(id);
-      const { id: userId, email, firstname, lastname } = user.getValue();
 
       // can't directly spread user.getvalue() because an instance of entity was created and returned from the findById method with public getters and setters that can be used to access properties
       const serializedUser = plainToInstance(
         UserDTO,
         {
-          id: userId.toHexString(),
-          email,
-          firstname,
-          lastname,
+          ...user.getValue(),
+          ...{ isVerified: Boolean(user.getValue().isVerified) },
         },
+
         { excludeExtraneousValues: true },
       );
 

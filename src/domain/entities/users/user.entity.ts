@@ -1,5 +1,5 @@
 import { Entity } from '@app/common/domain/entity';
-import { Types } from 'mongoose';
+import { ObjectId, Schema, Types } from "mongoose";
 import { IUserEntity } from './user-entity.interface';
 import { Result } from '@app/common/domain/result';
 import { UserDTO } from '../../dtos/users/user.dto';

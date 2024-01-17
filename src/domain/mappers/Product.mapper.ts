@@ -29,7 +29,10 @@ export class ProductMapper implements IProductMapper {
    * @returns instance of an entity
    */
   toDomain(model: ProductDocument): IProductEntity {
-    const products: IProductEntity = ProductEntity.create(model).getValue();
+    const products: IProductEntity = ProductEntity.create({
+      ...model.toObject(),
+      id: model._id,
+    }).getValue();
     return products;
   }
 }
