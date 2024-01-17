@@ -4,7 +4,7 @@ import { Expose, Type } from 'class-transformer';
 
 export class ProductDTO extends CreateProductDto {
   @Expose()
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @Type(() => String)
   id: string;
 }

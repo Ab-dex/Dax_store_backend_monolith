@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import {
+  ArrayMaxSize,
   ArrayNotEmpty,
   ArrayUnique,
   IsArray,
@@ -8,9 +9,10 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
-  IsString,
-} from 'class-validator';
+  IsString, Validate
+} from "class-validator";
 import { NonnegativeInteger } from '@app/common/presentation/NonNegativeInteger.type';
+import { IsNonNegativeNumber } from "../../constraints/NonNegativeNumber.constraints";
 
 export class CreateProductDto {
   @IsDefined()
@@ -55,28 +57,32 @@ export class CreateProductDto {
   @IsDefined()
   @IsNumber()
   @ApiProperty({ required: true })
-  price: NonnegativeInteger<number>;
+  @IsNonNegativeNumber()
+  price: number;
 
   @IsDefined()
   @IsNumber()
   @ApiProperty({ required: true })
-  quantity: NonnegativeInteger<number>;
+  @IsNonNegativeNumber()
+  quantity: number;
 
   @IsOptional()
-  @IsArray({ each: true })
+  @IsArray()
+  @IsString({ each: true })
   @ApiProperty({ required: false })
+  @ArrayUnique()
   images: string[];
 
   @IsOptional()
-  @Type(() => Number)
   @ArrayNotEmpty()
   @IsNumber({}, { each: true })
-  @ArrayUnique({ each: true })
+  @ArrayUnique()
+  @ArrayMaxSize(12)
   @ApiProperty({
     isArray: true,
     type: Number,
     default: undefined,
     required: false,
   })
-  sizes: number[];
+  sizes: NonnegativeInteger<number>[];
 }

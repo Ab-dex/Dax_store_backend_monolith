@@ -30,6 +30,7 @@ export class ProductsController {
   @ApiCreatedResponse({
     description: 'Product Created successfully',
   })
+  @AllowUnauthenticatedRequest()
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }
