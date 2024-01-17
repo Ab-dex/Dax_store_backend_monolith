@@ -113,7 +113,6 @@ export class UsersUseCases {
       ...(limit && { skip: offset }),
     });
 
-
     const serializedUser = users.getValue().map((user) => {
       return plainToInstance(
         UserDTO,

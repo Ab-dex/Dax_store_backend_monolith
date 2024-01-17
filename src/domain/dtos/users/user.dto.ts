@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IUser } from './user.interface';
-import { Exclude, Expose, Type } from 'class-transformer';
-import { IsArray, IsBoolean, IsEmail, IsEnum, IsString } from 'class-validator';
+import { Exclude, Expose, Transform, Type } from "class-transformer";
+import { IsArray, IsBoolean, IsDefined, IsEmail, IsEnum, IsNotEmpty, IsString } from "class-validator";
 
 export enum userRoles {
   USER = 'user',
@@ -20,13 +20,25 @@ export class UserDTO implements IUser {
   @ApiProperty({ required: true })
   email: string;
 
-  @Expose()
+  @IsDefined()
+  @IsNotEmpty()
   @IsString()
   @ApiProperty({ required: true })
+  @Transform(
+    (firstname) =>
+      firstname.value.trim().charAt(0).toUpperCase() +
+      firstname.value.trim().slice(1),
+  )
   firstname: string;
 
-  @Expose()
+  @IsDefined()
+  @IsNotEmpty()
   @IsString()
+  @Transform(
+    (lastname) =>
+      lastname.value.trim().charAt(0).toUpperCase() +
+      lastname.value.trim().slice(1),
+  )
   @ApiProperty({ required: true })
   lastname: string;
 

@@ -6,11 +6,16 @@ import {
   IsStrongPassword,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { IsUserAlreadyExist } from '../../constraints/email-exists.constraints';
 import { IsEqualTo } from '../../constraints/password-match.constraints';
+import { UserDTO } from '../users';
 
-export class RegisterUserDto {
+export class RegisterUserDto extends OmitType(UserDTO, [
+  'id',
+  'isVerified',
+  'roles',
+]) {
   @IsDefined()
   @IsNotEmpty()
   @IsEmail()
@@ -21,28 +26,6 @@ export class RegisterUserDto {
       'User $value already exists. Please proceed to login, or forgot password to reset your password.',
   })
   email: string;
-
-  @IsDefined()
-  @IsNotEmpty()
-  @IsString()
-  @ApiProperty({ required: true })
-  @Transform(
-    (firstname) =>
-      firstname.value.trim().charAt(0).toUpperCase() +
-      firstname.value.trim().slice(1),
-  )
-  firstname: string;
-
-  @IsDefined()
-  @IsNotEmpty()
-  @IsString()
-  @Transform(
-    (lastname) =>
-      lastname.value.trim().charAt(0).toUpperCase() +
-      lastname.value.trim().slice(1),
-  )
-  @ApiProperty({ required: true })
-  lastname: string;
 
   @IsDefined()
   @IsNotEmpty()

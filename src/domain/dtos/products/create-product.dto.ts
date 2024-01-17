@@ -31,6 +31,12 @@ export class CreateProductDto {
   @IsDefined()
   @IsNotEmpty()
   @IsString()
+  @Transform((desc) =>
+    desc.value
+      .split(' ')
+      .filter((ele) => ele !== '')
+      .join(' '),
+  )
   @ApiProperty({ required: true })
   description: string;
 
@@ -46,10 +52,12 @@ export class CreateProductDto {
   @ApiProperty({ required: true })
   brandImage: string;
 
+  @IsDefined()
   @IsNumber()
   @ApiProperty({ required: true })
   price: NonnegativeInteger<number>;
 
+  @IsDefined()
   @IsNumber()
   @ApiProperty({ required: true })
   quantity: NonnegativeInteger<number>;
