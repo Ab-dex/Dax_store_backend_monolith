@@ -1,16 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateProductDto } from '../../domain/dtos/products/create-product.dto';
 import { UpdateProductDto } from '../../domain/dtos/products/update-product.dto';
-import { TYPE } from '../../Constants';
 import { Result } from '@app/common/domain/result';
 import { ProductDTO } from '../../domain/dtos/products/product.dto';
-import { ProductEntity } from '../../domain/entities/products/product.entity';
-import { initProducts } from '../../infrastructure/seeds/products';
-import { IProductRepository } from '../../products/repository/product-repo.interface';
-import { IProductMapper } from '../../domain/mappers/product-mapper.interface';
 import { plainToInstance } from 'class-transformer';
 import { IProductEntity } from '../../domain/entities/products/product-entity.interface';
-import { IProductModel } from '../../infrastructure/data-services/mongo/model/product-model/product-model.interface';
 import { ProductMapper } from '../../domain/mappers/Product.mapper';
 import { IDataServices } from '../../domain/abstracts';
 

@@ -12,10 +12,13 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { AllowUnauthenticatedRequest } from '@app/common/presentation/decorators/decorator';
 import { CreateCategoryDto } from '../../domain/dtos/categories/create-category.dto';
 import { CategoryDto } from '../../domain/dtos/categories/category.dto';
+import { UsersUseCases } from '../../use-cases/users/users.use-cases';
+import { CategoriesUseCases } from '../../use-cases/categories/categories.use-cases';
 @ApiTags('Categories')
 @AllowUnauthenticatedRequest()
 @Controller('categories')
 export class CategoriesController {
+  constructor(private categoryService: CategoriesUseCases) {}
   @Get()
   @AllowUnauthenticatedRequest()
   @ApiOkResponse({
@@ -24,7 +27,7 @@ export class CategoriesController {
     isArray: true,
   })
   find() {
-    return 'Categories retrieved';
+    return this.categoryService.getCategpries();
   }
 
   @Get('/:id')

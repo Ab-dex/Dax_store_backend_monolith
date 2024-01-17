@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Transform, Type } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import {
   ArrayMaxSize,
   ArrayNotEmpty,
@@ -9,10 +9,10 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
-  IsString, Validate
-} from "class-validator";
+  IsString,
+} from 'class-validator';
 import { NonnegativeInteger } from '@app/common/presentation/NonNegativeInteger.type';
-import { IsNonNegativeNumber } from "../../constraints/NonNegativeNumber.constraints";
+import { IsNonNegativeNumber } from '../../constraints/NonNegativeNumber.constraints';
 
 export class CreateProductDto {
   @IsDefined()

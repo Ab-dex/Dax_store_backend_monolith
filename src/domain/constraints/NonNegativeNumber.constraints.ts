@@ -6,7 +6,6 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 import { Injectable } from '@nestjs/common';
-import { UsersUseCases } from '../../use-cases/users/users.use-cases';
 
 @ValidatorConstraint({ async: true })
 @Injectable()

@@ -1,7 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IUser } from './user.interface';
-import { Exclude, Expose, Transform, Type } from "class-transformer";
-import { IsArray, IsBoolean, IsDefined, IsEmail, IsEnum, IsNotEmpty, IsString } from "class-validator";
+import { Exclude, Expose, Transform, Type } from 'class-transformer';
+import {
+  IsArray,
+  IsBoolean,
+  IsDefined,
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsString,
+} from 'class-validator';
 
 export enum userRoles {
   USER = 'user',

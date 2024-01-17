@@ -10,20 +10,26 @@ import { MongoDataServiceRepository } from './mongo-data-service.repository';
 import { IMapper } from '@app/common/domain/mapper';
 import { UserMapper } from '../../../domain/mappers/User.mapper';
 import { ProductMapper } from '../../../domain/mappers/Product.mapper';
+import { ICategoryEntity } from '../../../domain/entities/categories';
+import { CategoryDocument } from './model/category-model/category.model';
+import { CategoryMapper } from '../../../domain/mappers/Category.mapper';
 
 @Injectable()
 export class MongoDataService implements IDataServices, OnApplicationBootstrap {
   products: GenericDocumentRepository<IProductEntity, ProductDocument>;
   users: GenericDocumentRepository<IUserEntity, UserDocument>;
+  categories: GenericDocumentRepository<ICategoryEntity, CategoryDocument>;
 
   constructor(
     @InjectModel('Users')
     protected readonly userModel: Model<UserDocument>,
     @InjectModel('Product')
     protected readonly productModel: Model<ProductDocument>,
-
+    @InjectModel('Category')
+    protected readonly categoryModel: Model<CategoryDocument>,
     private userMapper: UserMapper,
     private productMapper: ProductMapper,
+    private categoryMapper: CategoryMapper,
   ) {}
 
   onApplicationBootstrap(): any {
@@ -35,6 +41,11 @@ export class MongoDataService implements IDataServices, OnApplicationBootstrap {
     this.users = new MongoDataServiceRepository(
       this.userModel,
       this.userMapper,
+    );
+
+    this.categories = new MongoDataServiceRepository(
+      this.categoryModel,
+      this.categoryMapper,
     );
   }
 }

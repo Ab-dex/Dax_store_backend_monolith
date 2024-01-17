@@ -25,5 +25,5 @@ export class CategoryDto {
     description: 'url of desired icon for the category',
     required: false,
   })
-  iconUrl: string;
+  iconUrl?: string;
 }
