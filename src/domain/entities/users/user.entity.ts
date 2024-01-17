@@ -13,19 +13,38 @@ export class UserEntity extends Entity<IUserEntity> implements IUserEntity {
   private _password: string;
   private _firstname: string;
   private _lastname: string;
-
+  private _isVerified: boolean;
+  private _roles: string[];
   constructor({
     id,
     email,
     password,
     firstname,
     lastname,
+    roles,
+    isVerified,
   }: Partial<UserDTO> | UserModels) {
     super(new Types.ObjectId(id));
     this._email = email;
     this._password = password;
     this._firstname = firstname;
     this._lastname = lastname;
+    this._roles = roles;
+    this._isVerified = isVerified;
+  }
+
+  get roles(): string[] {
+    return this._roles;
+  }
+  set roles(roles: string[]) {
+    this._roles = roles;
+  }
+
+  get isVerified(): boolean {
+    return this._isVerified;
+  }
+  set isVerified(isVerified: boolean) {
+    this._isVerified = isVerified;
   }
 
   get email() {
@@ -66,6 +85,8 @@ export class UserEntity extends Entity<IUserEntity> implements IUserEntity {
       password: this.password,
       firstname: this.firstname,
       lastname: this.lastname,
+      roles: this.roles,
+      isVerified: this.isVerified,
     } as IUserEntity;
   }
 

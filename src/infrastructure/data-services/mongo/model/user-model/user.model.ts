@@ -20,6 +20,12 @@ export class UserModels extends BaseDocumentSchema {
 
   @Prop({ type: String, required: true })
   password: string;
+
+  @Prop({ type: Boolean, required: true })
+  isVerified: boolean;
+
+  @Prop({ type: [String], default: ['user'] })
+  roles: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModels);

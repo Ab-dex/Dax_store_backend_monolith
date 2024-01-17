@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   forwardRef,
   Inject,
   Injectable,
@@ -9,6 +10,8 @@ import { RegisterUserDto } from '../../domain/dtos/auths/create-auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { Result } from '@app/common/domain/result';
+import { plainToInstance } from 'class-transformer';
+import { UserDTO } from '../../domain';
 
 @Injectable()
 export class AuthsUseCases {
@@ -34,6 +37,16 @@ export class AuthsUseCases {
       accessToken,
       refreshToken,
     });
+  }
+
+  async signIn(email: string, password: string) {
+    const user = (await this.userService.validateUser(email)).getValue();
+    if (!user) {
+      throw new BadRequestException('User does not exist');
+    }
+
+    console.log(user)
+    return plainToInstance(UserDTO, user);
   }
 
   async getTokens(email: string, id: string) {
@@ -62,10 +75,5 @@ export class AuthsUseCases {
       accessToken,
       refreshToken,
     };
-  }
-
-  async signIn(email: string, password: string) {
-    // const user = await this.userService.validateUser(email);
-    return {};
   }
 }

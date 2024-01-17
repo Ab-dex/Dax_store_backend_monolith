@@ -3,5 +3,6 @@ export interface IUser {
   email: string;
   firstname: string;
   lastname: string;
-  roles?: string;
+  isVerified: boolean;
+  roles: string[];
 }

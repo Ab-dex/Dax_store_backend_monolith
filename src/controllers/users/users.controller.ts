@@ -26,6 +26,7 @@ import { UserDTO } from '../../domain/dtos/users/user.dto';
 import { GetUsersQueryDTO } from '../../domain/dtos/users/getUserQuery.dto';
 import { RolesGuard } from '@app/common/presentation/guards/Role.guard';
 import { Role, Roles } from '@app/common/presentation/decorators/roles.decorator';
+import { AllowUnauthenticatedRequest } from "@app/common/presentation/decorators/decorator";
 
 @ApiTags('Users')
 @Controller('users')
@@ -63,6 +64,7 @@ export class UsersController {
     type: Number,
     required: false,
   })
+  @AllowUnauthenticatedRequest()
   getUsers(
     @Query()
     query: GetUsersQueryDTO,
@@ -90,6 +92,7 @@ export class UsersController {
   @ApiParam({
     name: 'id',
   })
+  @AllowUnauthenticatedRequest()
   getUserById(@Param('id') id: string) {
     return this.usersService.getOneUserById(id);
   }

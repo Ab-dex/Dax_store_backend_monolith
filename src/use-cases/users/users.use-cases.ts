@@ -13,14 +13,11 @@ import { UserEntity } from '../../domain/entities/users/user.entity';
 import { CreateUserDto } from '../../domain/dtos/users/createUser.dto';
 import { Result } from '@app/common/domain/result';
 import { UserDTO } from '../../domain/dtos/users/user.dto';
-import { UserRepository } from '../../users/repository/user.repository';
 import { plainToInstance } from 'class-transformer';
 import { UserDocument } from '../../infrastructure/data-services/mongo/model/user-model/user.model';
 import { GetUsersQueryDTO } from '../../domain/dtos/users/getUserQuery.dto';
-import { TYPE } from '../../Constants';
 import { IDataServices } from '../../domain/abstracts';
-import * as brcypt from 'bcrypt';
-import { hashPassword } from "../../utils/hash-password";
+import { hashPassword } from '../../utils/hash-password';
 
 @Injectable()
 export class UsersUseCases {
@@ -47,11 +44,13 @@ export class UsersUseCases {
 
     // hash the password before creating an entity
     const hashedPwd = await hashPassword(props.password);
-    // create an enitity from createUserDto
-    const user = UserEntity.create({ ...props, password: hashedPwd } as Omit<
-      UserDTO,
-      'id'
-    >).getValue();
+    // create an entity from createUserDto
+    const user = UserEntity.create({
+      ...props,
+      password: hashedPwd,
+      isVerified: false,
+      roles: ['user'],
+    } as Omit<UserDTO, 'id'>).getValue();
 
     // map the created entity to product-user-model
     const userDoc = this.userMapper.toModelData(user);

@@ -16,5 +16,13 @@ export interface IUserEntity extends Entity<IUserEntity> {
 
   set lastname(lastname: string);
 
+  get isVerified(): boolean;
+
+  set isVerified(isVerified: boolean);
+
+  get roles(): string[];
+
+  set roles(role: string[]);
+
   toString(): IUserEntity;
 }

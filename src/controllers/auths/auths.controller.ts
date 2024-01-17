@@ -11,7 +11,7 @@ import { RegisterUserDto } from '../../domain/dtos/auths/create-auth.dto';
 import { AllowUnauthenticatedRequest } from '@app/common/presentation/decorators/decorator';
 
 @ApiTags('Auths')
-// @AllowUnauthenticatedRequest()
+@AllowUnauthenticatedRequest()
 @Controller('auths')
 export class AuthsController {
   constructor(private readonly authsService: AuthsUseCases) {}
@@ -27,7 +27,6 @@ export class AuthsController {
   @ApiBadRequestResponse({
     description: 'Bad Request',
   })
-  @AllowUnauthenticatedRequest()
   register(@Body() createAuthDto: RegisterUserDto) {
     return this.authsService.create(createAuthDto);
   }
@@ -37,7 +36,8 @@ export class AuthsController {
     description: 'Login User',
   })
   @Post('login')
+
   login(@Body() loginAuthDto: Pick<RegisterUserDto, 'email' | 'password'>) {
-    return this.authsService.signIn('David', 'Chris');
+    return this.authsService.signIn(loginAuthDto.email, loginAuthDto.password);
   }
 }

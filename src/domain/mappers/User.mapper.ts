@@ -7,12 +7,16 @@ import { IUserEntity } from '../entities';
 @Injectable()
 export class UserMapper implements IMapper<IUserEntity, UserDocument> {
   toModelData(entity: IUserEntity): UserDocument {
-    const { email, password, firstname, lastname, id } = entity;
+    const { email, password, firstname, isVerified, roles, lastname, id } =
+      entity;
+
     const newUserModel: UserDocument = {
       email,
       firstname,
       lastname,
       password,
+      roles,
+      isVerified,
       created_At: Date.now().toString(),
     } as UserDocument;
 
