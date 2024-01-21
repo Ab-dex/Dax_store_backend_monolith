@@ -1,8 +1,16 @@
-import { Controller, Post, Body, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  Request,
+  HttpCode,
+} from '@nestjs/common';
 import { AuthsUseCases } from '../../use-cases/auths/auths.use-cases';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
+  ApiOkResponse,
   ApiOperation,
   ApiProperty,
   ApiTags,
@@ -11,7 +19,6 @@ import { RegisterUserDto } from '../../domain/dtos/auths/create-auth.dto';
 import { AllowUnauthenticatedRequest } from '@app/common/presentation/decorators/decorator';
 import { LocalAuthGuard } from '../../presentation/guards/local-auth.guard';
 import { LoginAuthDto } from '../../domain/dtos/auths/login-auth.dto';
-import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Auths')
 @AllowUnauthenticatedRequest()
@@ -47,8 +54,12 @@ export class AuthsController {
       email: 'string',
     },
   })
+  @ApiOkResponse({
+    description: 'User logged in successfully',
+  })
+  @HttpCode(200)
   @Post('login')
-  login(@Body() loginDto: LoginAuthDto, @Request() req ) {
+  login(@Body() loginDto: LoginAuthDto, @Request() req) {
     return this.authsService.signIn(req.user);
   }
 }

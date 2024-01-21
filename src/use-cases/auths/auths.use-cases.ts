@@ -21,7 +21,7 @@ import { comparePassword, hashPassword } from '../../utils/hash-password';
 export class AuthsUseCases {
   constructor(
     @Inject(forwardRef(() => UsersUseCases)) private userService: UsersUseCases,
-    // private jwtService: JwtService,
+    private jwtService: JwtService,
     private configureService: ConfigService,
   ) {}
   async create(createAuthDto: RegisterUserDto) {
@@ -71,30 +71,30 @@ export class AuthsUseCases {
   }
 
   async getTokens(email: string, id: string) {
-    // const accessToken = await this.jwtService.signAsync(
-    //   {
-    //     sub: id,
-    //     email,
-    //   },
-    //   {
-    //     secret: this.configureService.get('AT_JWT_SECRET'),
-    //     expiresIn: 60 * 30,
-    //   },
-    // );
-    // const refreshToken = await this.jwtService.signAsync(
-    //   {
-    //     sub: id,
-    //     email,
-    //   },
-    //   {
-    //     secret: 'RT_JWT_SECRET',
-    //     expiresIn: 60 * 60 * 24 * 3,
-    //   },
-    // );
-    //
+    const accessToken = await this.jwtService.signAsync(
+      {
+        sub: id,
+        email,
+      },
+      {
+        secret: this.configureService.get('AT_JWT_SECRET'),
+        expiresIn: 60 * 30,
+      },
+    );
+    const refreshToken = await this.jwtService.signAsync(
+      {
+        sub: id,
+        email,
+      },
+      {
+        secret: 'RT_JWT_SECRET',
+        expiresIn: 60 * 60 * 24 * 3,
+      },
+    );
+
     return {
-      accessToken: '',
-      refreshToken: '',
+      accessToken,
+      refreshToken,
     };
   }
 
@@ -102,14 +102,14 @@ export class AuthsUseCases {
     user: LoginAuthDto,
   ): Promise<Omit<UserDTO, 'password'> | null> {
     const { email, password } = user;
-    const _user = (
+    const { password:_password, ..._user } = (
       await this.userService.getOneUserByEmail(email, false)
     ).getValue();
 
     if (!_user) {
       throw new NotFoundException('No user with such credentials exist');
     }
-    if (!(await comparePassword(password, _user.password))) {
+    if (!(await comparePassword(password, _password))) {
       throw new UnauthorizedException(
         'Wrong password. Please try again or request for password reset',
       );
