@@ -12,13 +12,14 @@ import { UserMapper } from '../../domain/mappers/User.mapper';
 import { UserEntity } from '../../domain/entities/users/user.entity';
 import { CreateUserDto } from '../../domain/dtos/users/createUser.dto';
 import { Result } from '@app/common/domain/result';
-import { UserDTO } from '../../domain/dtos/users/user.dto';
+import { UserDTO, WithPassword } from '../../domain/dtos/users/user.dto';
 import { plainToInstance } from 'class-transformer';
 import { UserDocument } from '../../infrastructure/data-services/mongo/model/user-model/user.model';
 import { GetUsersQueryDTO } from '../../domain/dtos/users/getUserQuery.dto';
 import { IDataServices } from '../../domain/abstracts';
 import { hashPassword } from '../../utils/hash-password';
 import { Schema } from 'mongoose';
+import { LoginAuthDto } from '../../domain/dtos/auths/login-auth.dto';
 
 @Injectable()
 export class UsersUseCases {
@@ -35,21 +36,9 @@ export class UsersUseCases {
   async createUser(props: CreateUserDto): Promise<Result<UserDTO>> {
     // Email exist has already been handled at the validation constraint level for createDTO. Please do not remove that constraint there without implementing such validation check here.
 
-    // password match has also been handled at the validation constraint level much like email.
-
-    console.log('from user', props)
-    if (props.password !== props.confirmPassword) {
-      throw new BadRequestException(
-        'password and confirm password must be he same',
-      );
-    }
-
-    // hash the password before creating an entity
-    const hashedPwd = await hashPassword(props.password);
     // create an entity from createUserDto
     const user = UserEntity.create({
       ...props,
-      password: hashedPwd,
       isVerified: false,
       roles: ['user'],
     } as Omit<UserDTO, 'id'>).getValue();
@@ -164,23 +153,35 @@ export class UsersUseCases {
     }
   }
 
-  async validateUser(email: string) {
+  async getOneUserByEmail(
+    email: string,
+    safe = true,
+  ): Promise<Result<UserDTO | WithPassword>> {
     try {
-      const user = await this.dataServices.users.findByValues({ email });
+      const user = (
+        await this.dataServices.users.findByValues({ email: email })
+      ).getValue();
 
-      // const isPasswordMatch = await bcrypt.compare(password, user.password);
-      // if (!isPasswordMatch) {
-      //   throw new UnauthorizedException('Invalid credentials');
-      // }
-      if (!user) {
-        throw new NotFoundException();
+      if (safe) {
+        const serializedUser = plainToInstance(
+          UserDTO,
+          {
+            ...user,
+            ...{ isVerified: Boolean(user.isVerified) },
+          },
+
+          { excludeExtraneousValues: true },
+        );
+
+        return Result.ok(serializedUser);
       }
-      return user;
+      return Result.ok(plainToInstance(WithPassword, user));
     } catch (err) {
-      if (err instanceof NotFoundException) {
-        throw new UnauthorizedException('Invalid credentials');
+      if (err instanceof NotAcceptableException || NotFoundException) {
+        return Result.fail('No such user exists', HttpStatus.NOT_FOUND);
+      } else {
+        throw new InternalServerErrorException('Something went wrong');
       }
-      throw new InternalServerErrorException(err);
     }
   }
 }

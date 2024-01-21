@@ -64,3 +64,5 @@ export class UserDTO implements IUser {
   @Exclude()
   password: string;
 }
+
+export class WithPassword extends UserDTO {password: string};

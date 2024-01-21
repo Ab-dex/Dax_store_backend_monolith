@@ -1,2 +1,5 @@
 import { RegisterUserDto } from '../auths';
-export class CreateUserDto extends RegisterUserDto {}
+import { OmitType } from '@nestjs/swagger';
+export class CreateUserDto extends OmitType(RegisterUserDto, [
+  'confirmPassword',
+]) {}
