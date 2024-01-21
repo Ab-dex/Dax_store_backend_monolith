@@ -8,6 +8,7 @@ import { ValidationExceptionFilter } from '@app/common/presentation/filters/vali
 import { LoggerFactory } from '@app/common/config/logger_config/logger.config';
 import { useContainer } from 'class-validator';
 import { AuthGuard } from '@app/common/presentation/guards/Auth.guard';
+import { ThrottlerExceptionsFilter } from "@app/common/presentation/filters/throttlerExceptions,filter";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -42,6 +43,7 @@ async function bootstrap() {
   app.useGlobalFilters(
     new HttpExceptionFilter(),
     new ValidationExceptionFilter(),
+    new ThrottlerExceptionsFilter(),
   );
 
   // This is required in order to inject dependencies such as userService into class-validator constraints
