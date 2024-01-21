@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate {
         AUTH_GUARD_CONFIG,
         context.getClass(),
       );
-    // return false
+
     return Boolean(endpointConfig?.disabled || controllerConfig?.disabled);
   }
 }

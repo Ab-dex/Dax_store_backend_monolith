@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, OmitType, PartialType } from "@nestjs/swagger";
 import { IUser } from './user.interface';
 import { Exclude, Expose, Transform, Type } from 'class-transformer';
 import {
@@ -65,4 +65,6 @@ export class UserDTO implements IUser {
   password: string;
 }
 
-export class WithPassword extends UserDTO {password: string};
+export class WithPassword extends OmitType(UserDTO, ['password']) {
+  password: string;
+}

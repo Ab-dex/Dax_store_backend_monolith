@@ -1,12 +1,9 @@
 import {
-  BadRequestException,
   HttpStatus,
-  Inject,
   Injectable,
   InternalServerErrorException,
   NotAcceptableException,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { UserMapper } from '../../domain/mappers/User.mapper';
 import { UserEntity } from '../../domain/entities/users/user.entity';
@@ -17,9 +14,6 @@ import { plainToInstance } from 'class-transformer';
 import { UserDocument } from '../../infrastructure/data-services/mongo/model/user-model/user.model';
 import { GetUsersQueryDTO } from '../../domain/dtos/users/getUserQuery.dto';
 import { IDataServices } from '../../domain/abstracts';
-import { hashPassword } from '../../utils/hash-password';
-import { Schema } from 'mongoose';
-import { LoginAuthDto } from '../../domain/dtos/auths/login-auth.dto';
 
 @Injectable()
 export class UsersUseCases {
@@ -162,6 +156,9 @@ export class UsersUseCases {
         await this.dataServices.users.findByValues({ email: email })
       ).getValue();
 
+      if (!user) {
+        throw new NotFoundException();
+      }
       if (safe) {
         const serializedUser = plainToInstance(
           UserDTO,
@@ -177,8 +174,9 @@ export class UsersUseCases {
       }
       return Result.ok(plainToInstance(WithPassword, user));
     } catch (err) {
+      console.log('error', err);
       if (err instanceof NotAcceptableException || NotFoundException) {
-        return Result.fail('No such user exists', HttpStatus.NOT_FOUND);
+        return Result.fail('No such user exists', HttpStatus.BAD_REQUEST);
       } else {
         throw new InternalServerErrorException('Something went wrong');
       }

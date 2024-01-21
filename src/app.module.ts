@@ -21,10 +21,26 @@ import { ProductsUseCasesModule } from './use-cases/products/products-use-cases.
 import { IsUserAlreadyExistConstraint } from './domain/constraints';
 import { CategoriesController } from './controllers/categories/categories.controller';
 import { CategoriesUseCasesModule } from './use-cases/categories/categories-use-cases.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { PassportModule } from '@nestjs/passport';
+import { StrategiesModule } from "./presentation/strategies/strategies.module";
 
 @Module({
   imports: [
+    StrategiesModule,
     ConfigsModule,
+    ThrottlerModule.forRoot([
+      {
+        name: 'short-live',
+        ttl: 1000,
+        limit: 3,
+      },
+      {
+        name: 'long-live',
+        ttl: 60000,
+        limit: 80,
+      },
+    ]),
     WinstonModule.forRoot({}),
     DataServicesModule,
     DatabaseModule,
@@ -40,6 +56,13 @@ import { CategoriesUseCasesModule } from './use-cases/categories/categories-use-
     CategoriesController,
     ProductsController,
   ],
-  providers: [AppUseCase, IsUserAlreadyExistConstraint],
+  providers: [
+    AppUseCase,
+    IsUserAlreadyExistConstraint,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}

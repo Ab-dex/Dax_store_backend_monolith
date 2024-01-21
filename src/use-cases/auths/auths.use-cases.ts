@@ -21,7 +21,7 @@ import { comparePassword, hashPassword } from '../../utils/hash-password';
 export class AuthsUseCases {
   constructor(
     @Inject(forwardRef(() => UsersUseCases)) private userService: UsersUseCases,
-    private jwtService: JwtService,
+    // private jwtService: JwtService,
     private configureService: ConfigService,
   ) {}
   async create(createAuthDto: RegisterUserDto) {
@@ -58,12 +58,7 @@ export class AuthsUseCases {
     });
   }
 
-  async signIn(email: string, password: string) {
-    const validatedUser = await this.validateUser({
-      email,
-      password,
-    } as LoginAuthDto);
-
+  async signIn(validatedUser: Pick<UserDTO, 'id' | 'email'>) {
     const { accessToken, refreshToken } = await this.getTokens(
       validatedUser.email,
       validatedUser.id,
@@ -76,30 +71,30 @@ export class AuthsUseCases {
   }
 
   async getTokens(email: string, id: string) {
-    const accessToken = await this.jwtService.signAsync(
-      {
-        sub: id,
-        email,
-      },
-      {
-        secret: this.configureService.get('AT_JWT_SECRET'),
-        expiresIn: 60 * 30,
-      },
-    );
-    const refreshToken = await this.jwtService.signAsync(
-      {
-        sub: id,
-        email,
-      },
-      {
-        secret: 'RT_JWT_SECRET',
-        expiresIn: 60 * 60 * 24 * 3,
-      },
-    );
-
+    // const accessToken = await this.jwtService.signAsync(
+    //   {
+    //     sub: id,
+    //     email,
+    //   },
+    //   {
+    //     secret: this.configureService.get('AT_JWT_SECRET'),
+    //     expiresIn: 60 * 30,
+    //   },
+    // );
+    // const refreshToken = await this.jwtService.signAsync(
+    //   {
+    //     sub: id,
+    //     email,
+    //   },
+    //   {
+    //     secret: 'RT_JWT_SECRET',
+    //     expiresIn: 60 * 60 * 24 * 3,
+    //   },
+    // );
+    //
     return {
-      accessToken,
-      refreshToken,
+      accessToken: '',
+      refreshToken: '',
     };
   }
 
@@ -107,23 +102,18 @@ export class AuthsUseCases {
     user: LoginAuthDto,
   ): Promise<Omit<UserDTO, 'password'> | null> {
     const { email, password } = user;
-    try {
-      const _user = (
-        await this.userService.getOneUserByEmail(email, false)
-      ).getValue();
+    const _user = (
+      await this.userService.getOneUserByEmail(email, false)
+    ).getValue();
 
-      if (!_user) {
-        throw new NotFoundException();
-      }
-      if (_user && (await comparePassword(password, _user.password))) {
-        return _user as Omit<UserDTO, 'password'>;
-      }
-      return null;
-    } catch (err) {
-      if (err instanceof NotFoundException) {
-        throw new UnauthorizedException('Invalid credentials');
-      }
-      throw new InternalServerErrorException(err);
+    if (!_user) {
+      throw new NotFoundException('No user with such credentials exist');
     }
+    if (!(await comparePassword(password, _user.password))) {
+      throw new UnauthorizedException(
+        'Wrong password. Please try again or request for password reset',
+      );
+    }
+    return _user as Omit<UserDTO, 'password'>;
   }
 }

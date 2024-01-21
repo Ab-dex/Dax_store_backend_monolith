@@ -24,7 +24,7 @@ async function bootstrap() {
 
   configureSwagger(app);
 
-  app.useGlobalGuards(new AuthGuard(app.get(Reflector)));
+  // app.useGlobalGuards(new AuthGuard(app.get(Reflector)));
 
   // this allows global use of validation from class-validator.
   // whitelist removes extradata not needed in the request body before controllers perform actions on them

@@ -1,22 +1,30 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UsersUseCases } from '../../use-cases/users/users.use-cases';
-import { LoginAuthDto } from '../../domain/dtos/auths/login-auth.dto';
+import { ConfigService } from '@nestjs/config';
+import { AuthsUseCases } from '../../use-cases/auths/auths.use-cases';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
-  constructor(private readonly userService: UsersUseCases) {
-    super();
+  constructor(
+    private readonly configureService: ConfigService,
+    private readonly authService: AuthsUseCases,
+  ) {
+    super({
+      usernameField: 'email',
+      passwordField: 'password',
+    });
   }
 
-  async validate(user: LoginAuthDto) {
-    const _user = await this.userService.validateUser(user);
+  async validate(email: string, password: string) {
+    const { email: _email, id } = await this.authService.validateUser({
+      email,
+      password,
+    });
 
-    if (!user) {
-      throw new UnauthorizedException('User does not exist');
-    }
-
-    return user;
+    return {
+      email: _email,
+      id,
+    };
   }
 }
