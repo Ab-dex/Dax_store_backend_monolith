@@ -5,7 +5,7 @@ export class Result<T> {
   private data?: any;
   private error?: any;
   message: string;
-  errorCode: HttpStatus;
+  // errorCode: HttpStatus;
   constructor(
     isSuccess: boolean,
     data?: any,
@@ -22,6 +22,10 @@ export class Result<T> {
 
   getValue(): T {
     return this.data;
+  }
+
+  getError(): T {
+    return this.error.details;
   }
 
   static ok<U>(data: U, message?: string): Result<U> {

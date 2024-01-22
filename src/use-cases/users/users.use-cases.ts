@@ -152,19 +152,19 @@ export class UsersUseCases {
     safe = true,
   ): Promise<Result<UserDTO | WithPassword>> {
     try {
-      const user = (
-        await this.dataServices.users.findByValues({ email: email })
-      ).getValue();
+      const userResult = await this.dataServices.users.findByValues({
+        email: email,
+      });
 
-      if (!user) {
+      if (!userResult.isSuccess) {
         throw new NotFoundException();
       }
       if (safe) {
         const serializedUser = plainToInstance(
           UserDTO,
           {
-            ...user,
-            ...{ isVerified: Boolean(user.isVerified) },
+            ...userResult,
+            ...{ isVerified: Boolean(userResult.getValue().isVerified) },
           },
 
           { excludeExtraneousValues: true },
@@ -172,11 +172,16 @@ export class UsersUseCases {
 
         return Result.ok(serializedUser);
       }
-      return Result.ok(plainToInstance(WithPassword, user));
+      return Result.ok(plainToInstance(WithPassword, userResult.getValue()));
     } catch (err) {
-      console.log('error', err);
-      if (err instanceof NotAcceptableException || NotFoundException) {
-        return Result.fail('No such user exists', HttpStatus.BAD_REQUEST);
+      if (err instanceof NotAcceptableException) {
+        return Result.fail(
+          'Format is not acceptable',
+          HttpStatus.NOT_ACCEPTABLE,
+        );
+      }
+      if (err instanceof NotFoundException) {
+        return Result.fail('No such user exists', HttpStatus.NOT_FOUND);
       } else {
         throw new InternalServerErrorException('Something went wrong');
       }

@@ -33,7 +33,7 @@ import { StrategiesModule } from "./presentation/strategies/strategies.module";
       {
         name: 'short-live',
         ttl: 1000,
-        limit: 1,
+        limit: 3,
       },
       {
         name: 'long-live',

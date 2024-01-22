@@ -7,8 +7,7 @@ import { HttpExceptionFilter } from '@app/common/presentation/filters/httpExcept
 import { ValidationExceptionFilter } from '@app/common/presentation/filters/validationExceptions.filter';
 import { LoggerFactory } from '@app/common/config/logger_config/logger.config';
 import { useContainer } from 'class-validator';
-import { AuthGuard } from '@app/common/presentation/guards/Auth.guard';
-import { ThrottlerExceptionsFilter } from "@app/common/presentation/filters/throttlerExceptions,filter";
+import { ThrottlerExceptionsFilter } from '@app/common/presentation/filters/throttlerExceptions,filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {

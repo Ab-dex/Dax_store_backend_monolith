@@ -13,11 +13,15 @@ export class ThrottlerExceptionsFilter implements ExceptionFilter {
 
     const [title, message] = (exception.getResponse() as string).split(':');
 
-    response.status(400).json({
-      statusCode,
+    response.status(statusCode).json({
       title,
       createdBy: 'Rate limiter',
-      message: message.trim(),
+      path: request.originalUrl,
+      isSuccess: false,
+      error: {
+        statusCode: statusCode,
+        details: message.trim(),
+      },
     });
   }
 }

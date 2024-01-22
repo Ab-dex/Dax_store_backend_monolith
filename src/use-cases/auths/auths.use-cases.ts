@@ -102,13 +102,13 @@ export class AuthsUseCases {
     user: LoginAuthDto,
   ): Promise<Omit<UserDTO, 'password'> | null> {
     const { email, password } = user;
-    const { password:_password, ..._user } = (
-      await this.userService.getOneUserByEmail(email, false)
-    ).getValue();
+    const userResult = await this.userService.getOneUserByEmail(email, false);
 
-    if (!_user) {
-      throw new NotFoundException('No user with such credentials exist');
+    if (!userResult.isSuccess) {
+      throw new NotFoundException(userResult.getError());
     }
+
+    const { password: _password, ..._user } = userResult.getValue();
     if (!(await comparePassword(password, _password))) {
       throw new UnauthorizedException(
         'Wrong password. Please try again or request for password reset',

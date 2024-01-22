@@ -22,10 +22,10 @@ export class RegisterUserDto extends OmitType(UserDTO, [
   @IsEmail()
   @Transform((email) => email.value.toLowerCase())
   @ApiProperty({ required: true })
-  // @IsUserAlreadyExist({
-  //   message:
-  //     'User $value already exists. Please proceed to login, or forgot password to reset your password.',
-  // })
+  @IsUserAlreadyExist({
+    message:
+      'User $value already exists. Please proceed to login, or forgot password to reset your password.',
+  })
   email: string;
 
   @IsDefined()

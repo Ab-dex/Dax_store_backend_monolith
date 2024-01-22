@@ -19,6 +19,7 @@ import { RegisterUserDto } from '../../domain/dtos/auths/create-auth.dto';
 import { AllowUnauthenticatedRequest } from '@app/common/presentation/decorators/decorator';
 import { LocalAuthGuard } from '../../presentation/guards/local-auth.guard';
 import { LoginAuthDto } from '../../domain/dtos/auths/login-auth.dto';
+import { Throttle } from '@nestjs/throttler';
 
 @ApiTags('Auths')
 @AllowUnauthenticatedRequest()
@@ -41,6 +42,16 @@ export class AuthsController {
     return this.authsService.create(createAuthDto);
   }
 
+  @Throttle({
+    'short-live': {
+      limit: 1,
+      ttl: 1000,
+    },
+    'long-live': {
+      limit: 6,
+      ttl: 5 * 60000,
+    },
+  })
   @UseGuards(LocalAuthGuard)
   @ApiOperation({
     summary: 'Sign in',
