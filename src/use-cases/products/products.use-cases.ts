@@ -51,6 +51,7 @@ export class ProductsUseCases {
     );
     return Result.ok(serializedProduct);
   }
+  
 
   // async updateSeed(props: any): Promise<Result<any>> {
   //   // this.dataServices.products.upsert()
